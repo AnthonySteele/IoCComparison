@@ -1,0 +1,185 @@
+<#@ Template Language="C#v3.5" Hostspecific="True" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="Funq.dll"  #>
+<#@ Import Namespace="Funq" #>
+<#@ Import Namespace="System.Collections.Generic" #>
+<#@ Import Namespace="System.Reflection" #>
+<#@ Import Namespace="System.IO" #>
+<#@ Import Namespace="System.Linq" #>
+<#
+var outputFile = @"$safeprojectname$.dll";
+
+// Retrieve all funqlets that provide types to register by convention
+var funqlets = LoadProjectAssembly(outputFile).GetExportedTypes()
+	.Where(t => typeof(IConventionFunqlet).IsAssignableFrom(t))
+	.Select(t => Activator.CreateInstance(t))
+	.Cast<IConventionFunqlet>()
+    .Select(f => new { Name = f.GetType().Name, Convention = f.GetConvention() })
+	.OrderBy(f => f.Name);
+	
+#>
+using Funq;
+<#GenerateUsings(funqlets.SelectMany(f => f.Convention.Types));#>
+
+namespace <#= Path.GetFileNameWithoutExtension(outputFile) #>
+{
+<#
+	  foreach (var funqlet in funqlets)
+	  {
+#>
+	partial class <#= funqlet.Name #>
+	{
+		partial void DoConfigure(Container container)
+		{
+<#
+// We filter out non-classes and abstract classes just in case the 
+// user made a mistake in the query, so as not to generate code that 
+// doesn't have a chance to compile.
+foreach (var type in funqlet.Convention.Types.Where(t => t.IsClass && !t.IsAbstract))
+{
+	var ctor = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+						.OrderByDescending(c => c.GetParameters().Length).FirstOrDefault();
+   if (ctor != null)
+   {
+	   var args = String.Join(", ",
+							ctor.GetParameters().Select(p => "c.Resolve<" + p.ParameterType.Name + ">()").ToArray());
+
+	  if (funqlet.Convention.Kind == ConventionKind.Components)
+	 {
+#>
+			container.Register(c => new <#=type.Name#>(<#=args#>))<#
+	 }
+	 else
+	 {
+		// Regiter under the first interface that is not IDisposable, if any.
+		var registerInterface = type.GetInterfaces().Where(i => i != typeof(IDisposable)).FirstOrDefault();
+		if (registerInterface == null)
+			registerInterface = type;
+
+		var registerAs = registerInterface.Name;
+#>
+			container.Register<<#=registerAs#>>(c => new <#=type.Name#>(<#=args#>))<#
+	}
+#>
+<#
+	  if (funqlet.Convention.Reuse != ReuseScope.Default)
+	  {
+#>
+
+						.ReusedWithin(ReuseScope.<#= funqlet.Convention.Reuse #>);
+<#
+	  }
+	  else
+	  {
+#>;
+<#
+	  }
+#>
+<#   
+}
+}
+#>
+        }
+    }
+    
+<#		 
+	}
+#>
+}
+<#Cleanup(); #>
+<#+// 
+string outputDir;
+
+private void GenerateUsings(IEnumerable<Type> services)
+{
+	// Generate nice code with short type names, by adding the 
+	// appropriate using statements as necessary for 
+	// service types and constructor parameters.
+	var namespaces = from t in services.Distinct()
+					let c = t.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+										 .OrderByDescending(c => c.GetParameters().Length).FirstOrDefault()
+					where c != null
+					from p in c.GetParameters()
+					select p.ParameterType.Namespace;
+
+   // Add services namespaces too.
+   namespaces = namespaces.Concat(services.Select(s => s.Namespace));
+
+   // As well as the interfaces if any
+   namespaces = namespaces.Concat(from s in services
+								  from t in s.GetInterfaces()
+								  select t.Namespace);
+
+   foreach (var ns in namespaces.Distinct().OrderBy(s => s))
+   {
+	   WriteLine("using " + ns + ";");
+   }
+}
+
+private Assembly LoadProjectAssembly(string assemblyFile)
+{
+	// If running withing VS, we need to append project output directory.
+	// Inside MSBuild, we'll already be running from there.
+	if (this.Host is IServiceProvider)
+   {
+	  var dteType = Type.GetType("EnvDTE.DTE, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
+	 if (dteType != null)
+	{
+		var dte = ((IServiceProvider)this.Host).GetService(dteType);
+	  var doc = GetValue(dte, "_DTE.ActiveDocument");
+	  var item = GetValue(doc, "Document.ProjectItem");
+	  var project = GetValue(item, "ProjectItem.ContainingProject");
+	  var configManager = GetValue(project, "Project.ConfigurationManager");
+	  var activeConfig = GetValue(configManager, "ConfigurationManager.ActiveConfiguration");
+	  var properties = (System.Collections.IEnumerable)GetValue(activeConfig, "Configuration.Properties");
+	  var outputPathProperty = GetValue(properties, "Properties.Item", "OutputPath");
+	  var outputPathValue = GetValue(outputPathProperty, "Property.Value").ToString();
+	  assemblyFile = Path.Combine(
+		 Path.Combine(
+			Path.GetDirectoryName(GetValue(project, "Project.FileName").ToString()),
+			outputPathValue)
+		 , assemblyFile);
+	}
+   }
+
+   if (!File.Exists(assemblyFile))
+	   throw new ArgumentException(String.Format("Project assembly file could not be located at {0}.", assemblyFile));
+
+   outputDir = Path.GetDirectoryName(assemblyFile);
+   AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
+
+   return Assembly.Load(File.ReadAllBytes(assemblyFile));
+}
+
+private static object GetValue(object target, string typeProperty)
+{
+	var values = typeProperty.Split('.');
+   var type = Type.GetType("EnvDTE." + values[0] + ", EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
+   var property = type.GetProperty(values[1]);
+   return property.GetValue(target, null);
+}
+
+private static object GetValue(object target, string typeMethod, params object[] args)
+{
+	var values = typeMethod.Split('.');
+   var type = Type.GetType("EnvDTE." + values[0] + ", EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
+   var method = type.GetMethod(values[1]);
+   return method.Invoke(target, args);
+}
+
+private void Cleanup()
+{
+	AppDomain.CurrentDomain.AssemblyResolve -= ResolveAssembly;
+}
+
+private Assembly ResolveAssembly(object sender, ResolveEventArgs args)
+{
+	var dependency = Path.Combine(outputDir, args.Name.Substring(0, args.Name.IndexOf(',')) + ".dll");
+
+   if (File.Exists(dependency))
+	   return Assembly.Load(File.ReadAllBytes(dependency));
+
+   return null;
+}
+
+#>

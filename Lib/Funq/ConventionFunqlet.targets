@@ -1,0 +1,38 @@
+﻿<!--
+	Import this project as follows to automate the generation 
+	of the module registrations:
+
+  <Import Project="Funq.targets" />
+  
+  The temporary output from the template generation is left 
+  in the obj\Release (or Debug) folder, so you can inspect 
+  what the registrations look like.
+  
+  The template can be customized to register a different set 
+  of types. Editing the template can be greatly improved by 
+  using the Visual T4 Editor (http://visualt4.com).
+  
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="AfterBuild">
+		<CreateItem Include="@(None)" Condition="'%(Extension)'=='.t4'">
+			<Output TaskParameter="Include" ItemName="T4Templates" />
+		</CreateItem>
+		<Exec Command="&quot;$(MSBuildExtensionsPath)\..\Common Files\microsoft shared\TextTemplating\1.2\TextTransform.exe&quot; -out &quot;@(T4Templates->'$(ProjectDir)$(IntermediateOutputPath)%(Filename)%(Extension).cs')&quot; @(T4Templates->'%(FullPath)')" WorkingDirectory="$(TargetDir)" />
+		<CreateItem Include="$(ProjectDir)$(IntermediateOutputPath)*.t4.cs">
+			<Output ItemName="T4Output" TaskParameter="Include" />
+		</CreateItem>
+		<Message Importance="high" Text="@(T4Output->'%(FullPath)')" />
+		<!-- Cannot invoke the CoreCompile target as MSBuild will not re-execute it again, so we need to copy stuff :( -->
+		<!-- Copied from Microsoft.Common.targets, we just add the @(T4Output) to the Sources attribute -->
+		<Csc Condition=" '%(_CoreCompileResourceInputs.WithCulture)' != 'true' " AdditionalLibPaths="$(AdditionalLibPaths)" AddModules="@(AddModules)" AllowUnsafeBlocks="$(AllowUnsafeBlocks)" BaseAddress="$(BaseAddress)" CheckForOverflowUnderflow="$(CheckForOverflowUnderflow)" CodePage="$(CodePage)" DebugType="$(DebugType)" DefineConstants="$(DefineConstants)" DelaySign="$(DelaySign)" DisabledWarnings="$(NoWarn)" DocumentationFile="@(DocFileItem)" EmitDebugInformation="$(DebugSymbols)" ErrorReport="$(ErrorReport)" FileAlignment="$(FileAlignment)" GenerateFullPaths="$(GenerateFullPaths)" KeyContainer="$(KeyContainerName)" KeyFile="$(KeyOriginatorFile)" LangVersion="$(LangVersion)" MainEntryPoint="$(StartupObject)" ModuleAssemblyName="$(ModuleAssemblyName)" NoConfig="true" NoLogo="$(NoLogo)" NoStandardLib="$(NoStdLib)" NoWin32Manifest="$(NoWin32Manifest)" Optimize="$(Optimize)" OutputAssembly="@(IntermediateAssembly)" PdbFile="$(PdbFile)" Platform="$(PlatformTarget)" References="@(ReferencePath)" Resources="@(_CoreCompileResourceInputs);@(CompiledLicenseFile)" ResponseFiles="$(CompilerResponseFile)" Sources="@(Compile);@(T4Output)" TargetType="$(OutputType)" ToolExe="$(CscToolExe)" ToolPath="$(CscToolPath)" TreatWarningsAsErrors="$(TreatWarningsAsErrors)" UseHostCompilerIfAvailable="$(UseHostCompilerIfAvailable)" Utf8Output="$(Utf8Output)" WarningLevel="$(WarningLevel)" WarningsAsErrors="$(WarningsAsErrors)" WarningsNotAsErrors="$(WarningsNotAsErrors)" Win32Icon="$(ApplicationIcon)" Win32Manifest="$(Win32Manifest)" Win32Resource="$(Win32Resource)" />
+		<!-- Copied as-is from Microsoft.Common.targets -->
+		<!-- Copy the build product (.dll or .exe). -->
+		<Copy SourceFiles="@(IntermediateAssembly)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="$(OverwriteReadOnlyFiles)">
+		</Copy>
+		<!-- Copied as-is from Microsoft.Common.targets -->
+		<!-- Copy the debug information file (.pdb), if any -->
+		<Copy SourceFiles="@(_DebugSymbolsIntermediatePath)" DestinationFiles="@(_DebugSymbolsOutputPath)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="$(OverwriteReadOnlyFiles)" Condition="'$(_DebugSymbolsProduced)'=='true' and '$(SkipCopyingSymbolsToOutputDirectory)' != 'true'">
+		</Copy>
+	</Target>
+</Project>
