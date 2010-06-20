@@ -1,0 +1,1067 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LightCore</name>
+    </assembly>
+    <members>
+        <member name="T:LightCore.Activation.DelegateActivator`1">
+            <summary>
+            Represents a delegate instance activator.
+            </summary>
+        </member>
+        <member name="T:LightCore.Activation.IActivator">
+            <summary>
+            Represents an instance activator.
+            </summary>
+        </member>
+        <member name="M:LightCore.Activation.IActivator.ActivateInstance(LightCore.Container,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Activates an instance with given arguments.
+            </summary>
+            <param name="container">The container.</param>
+            <param name="arguments">The arguments.</param>
+            <returns>The activated instance.</returns>
+        </member>
+        <member name="F:LightCore.Activation.DelegateActivator`1._activationFunction">
+            <summary>
+            The activation function as a delegate.
+            </summary>
+        </member>
+        <member name="M:LightCore.Activation.DelegateActivator`1.#ctor(System.Func{LightCore.IContainer,`0})">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Activation.DelegateActivator`1"/>.
+            </summary>
+            <param name="activationFunction">The activator function.</param>
+        </member>
+        <member name="M:LightCore.Activation.DelegateActivator`1.ActivateInstance(LightCore.Container,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Activates an instance with given arguments.
+            </summary>
+            <param name="container">The container.</param>
+            <param name="arguments">The arguments.</param>
+            <returns>The activated instance.</returns>
+        </member>
+        <member name="T:LightCore.Activation.ReflectionActivator">
+            <summary>
+            Represents an reflection instance activator.
+            </summary>
+        </member>
+        <member name="F:LightCore.Activation.ReflectionActivator._dependencyParameterSelector">
+            <summary>
+            Selector for dependency parameters.
+            </summary>
+        </member>
+        <member name="F:LightCore.Activation.ReflectionActivator._implementationType">
+            <summary>
+            The implementation type.
+            </summary>
+        </member>
+        <member name="F:LightCore.Activation.ReflectionActivator._cachedConstructor">
+            <summary>
+            The cached constructor.
+            </summary>
+        </member>
+        <member name="F:LightCore.Activation.ReflectionActivator._cachedArguments">
+            <summary>
+            The cached constructor arguments.
+            </summary>
+        </member>
+        <member name="F:LightCore.Activation.ReflectionActivator._container">
+            <summary>
+            A reference to the container to resolve inner dependencies.
+            </summary>
+        </member>
+        <member name="M:LightCore.Activation.ReflectionActivator.#ctor(System.Type)">
+            <summary>
+             Creates a new instance of <see cref="T:LightCore.Activation.ReflectionActivator"/>.
+            </summary>
+            <param name="implementationType"></param>
+        </member>
+        <member name="M:LightCore.Activation.ReflectionActivator.IsRegisteredGenericEnumerable(System.Reflection.ParameterInfo)">
+            <summary>
+            Checks whether a parameter is typeo of IEnumerable{T}, where {T} is a registered contract.
+            </summary>
+            <param name="parameter">The parameter candidate.</param>
+            <returns><true /> if the parameter is a registered type within an generic enumerable instance.</returns>
+        </member>
+        <member name="M:LightCore.Activation.ReflectionActivator.IsGenericEnumerable(System.Type)">
+            <summary>
+            Checks whether a given parameterType is type of generic enumerable.
+            </summary>
+            <param name="parameterType">The parameter type.</param>
+            <returns><true /> if the parameter type is a generic enumerable, otherwise <false /></returns>
+        </member>
+        <member name="M:LightCore.Activation.ReflectionActivator.ActivateInstance(LightCore.Container,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Activates an instance with given arguments.
+            </summary>
+            <param name="container">The container.</param>
+            <param name="arguments">The arguments.</param>
+            <returns>The activated instance.</returns>
+        </member>
+        <member name="M:LightCore.Activation.ReflectionActivator.InvokeDefaultConstructor">
+            <summary>
+            Invokes the default constructor of the implementation type.-
+            </summary>
+            <returns>The instance constructed bei default constructor.</returns>
+        </member>
+        <member name="M:LightCore.Activation.ReflectionActivator.ConstructorParameterTypesMatch(System.Reflection.ParameterInfo[],System.Object[])">
+            <summary>
+            Checks whether the types of parameter infos and arguments matches.
+            Ignores depdency parameters at the beginning (increment the index from begining on).
+            </summary>
+            <param name="parameters">The parameters.</param>
+            <param name="arguments">The arguments.</param>
+            <returns><value>true</value> if the parameter and argument types match, otherwise <value>false</value>.</returns>
+        </member>
+        <member name="M:LightCore.Activation.ReflectionActivator.InvokeConstructor(System.Reflection.ConstructorInfo,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Invokes a constructor with optional given arguments.
+            Automatically detects the right resolved arguments and arguments,
+            and injects these into the constructor invocation.
+            </summary>
+            <param name="constructor">The constructor to invoke.</param>
+            <param name="arguments">The optional arguments.</param>
+            <returns>The resolved object.</returns>
+        </member>
+        <member name="M:LightCore.Activation.ReflectionActivator.ResolveDependencies(System.Collections.Generic.IEnumerable{System.Reflection.ParameterInfo})">
+            <summary>
+            Resolve all dependencies and consider IEnumerable{TContract}.
+            </summary>
+            <param name="dependencyParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LightCore.ExtensionMethods.LightCore.Fluent.FluentRegistrationExtensions">
+            <summary>
+            Represents extensionmethods for LightCore.Fluent namespace.
+            </summary>
+        </member>
+        <member name="M:LightCore.ExtensionMethods.LightCore.Fluent.FluentRegistrationExtensions.StirbLangsamMit``1(LightCore.Fluent.IFluentRegistration)">
+            <summary>
+            Treat the current registration to use the passed lifecycle.
+            </summary>
+            <typeparam name="TLifecycle">The lifecycle type.</typeparam>
+            <param name="source">The source.</param>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="M:LightCore.ExtensionMethods.LightCore.Fluent.FluentRegistrationExtensions.DieSlowlyWithin``1(LightCore.Fluent.IFluentRegistration)">
+            <summary>
+            Treat the current registration to use the passed lifecycle.
+            </summary>
+            <typeparam name="TLifecycle">The lifecycle type.</typeparam>
+            <param name="source">The source.</param>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="T:LightCore.ContractNotImplementedByTypeException">
+            <summary>
+            Thrown when the contract type is not assignable from implementationtype.
+            </summary>
+        </member>
+        <member name="M:LightCore.ContractNotImplementedByTypeException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.ContractNotImplementedByTypeException"/> type.
+            </summary>
+        </member>
+        <member name="M:LightCore.ContractNotImplementedByTypeException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.ContractNotImplementedByTypeException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+        </member>
+        <member name="M:LightCore.ContractNotImplementedByTypeException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.ContractNotImplementedByTypeException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="innerException">The inner exception</param>
+        </member>
+        <member name="M:LightCore.ContractNotImplementedByTypeException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.ContractNotImplementedByTypeException"/> type.
+            </summary>
+            <param name="info">The serialization info.</param>
+            <param name="context">The context.</param>
+        </member>
+        <member name="T:LightCore.ExtensionMethods.System.SystemExtensions">
+            <summary>
+            Represents extensionmethods for <see cref="T:System.Type"/> type.
+            </summary>
+        </member>
+        <member name="M:LightCore.ExtensionMethods.System.SystemExtensions.IsConcreteType(System.Type)">
+            <summary>
+            Checks whether the type is concrete or not.
+            </summary>
+            <param name="source">The type to check.</param>
+            <returns><value>true</value> if the type is concrete, otherwise <value>false</value>.</returns>
+        </member>
+        <member name="T:LightCore.InvalidRegistrationException">
+            <summary>
+            Thrown when a registration is invalid. e.g. Registration of interface to interface.
+            </summary>
+        </member>
+        <member name="M:LightCore.InvalidRegistrationException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.InvalidRegistrationException"/> type.
+            </summary>
+        </member>
+        <member name="M:LightCore.InvalidRegistrationException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.InvalidRegistrationException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+        </member>
+        <member name="M:LightCore.InvalidRegistrationException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.InvalidRegistrationException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="innerException">The inner exception</param>
+        </member>
+        <member name="M:LightCore.InvalidRegistrationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.InvalidRegistrationException"/> type.
+            </summary>
+            <param name="info">The serialization info.</param>
+            <param name="context">The context.</param>
+        </member>
+        <member name="T:LightCore.Registration.InlineRegistrationModule">
+            <summary>
+            Represents an inline registration module.
+            </summary>
+        </member>
+        <member name="T:LightCore.Registration.RegistrationModule">
+            <summary>
+            Represents an abstract registration module for implementing custom registrations.
+            </summary>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationModule.Register(LightCore.IContainerBuilder)">
+            <summary>
+            Registers all candidates.
+            </summary>
+            <param name="containerBuilder">The ContainerBuilder.</param>
+        </member>
+        <member name="M:LightCore.Registration.InlineRegistrationModule.#ctor(System.Action{LightCore.IContainerBuilder}[])">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Registration.InlineRegistrationModule"/>.
+            </summary>
+            <param name="registrationCallBacks">The registration callbacks.</param>
+        </member>
+        <member name="M:LightCore.Registration.InlineRegistrationModule.Register(LightCore.IContainerBuilder)">
+            <summary>
+            Registers all candidates.
+            </summary>
+            <param name="containerBuilder">The ContainerBuilder.</param>
+        </member>
+        <member name="P:LightCore.Registration.InlineRegistrationModule.RegistrationCallBacks">
+            <summary>
+            Gets or sets the registration callbacks.
+            </summary>
+        </member>
+        <member name="T:LightCore.Lifecycle.ILifecycle">
+            <summary>
+            Represents a lifecycle where instances can be reused.
+            </summary>
+        </member>
+        <member name="M:LightCore.Lifecycle.ILifecycle.ReceiveInstanceInLifecycle(System.Func{System.Object})">
+            <summary>
+            Handle the reuse of instances.
+            </summary>
+            <param name="newInstanceResolver">The function for lazy get an instance.</param>
+        </member>
+        <member name="T:LightCore.Lifecycle.SingletonLifecycle">
+            <summary>
+            Represents a singleton per container lifecycle.
+            (One instance is shared within the same container).
+            </summary>
+        </member>
+        <member name="F:LightCore.Lifecycle.SingletonLifecycle._lock">
+            <summary>
+            Contains the lock object for instance creation.
+            </summary>
+        </member>
+        <member name="F:LightCore.Lifecycle.SingletonLifecycle._instance">
+            <summary>
+            The instance.
+            </summary>
+        </member>
+        <member name="M:LightCore.Lifecycle.SingletonLifecycle.ReceiveInstanceInLifecycle(System.Func{System.Object})">
+            <summary>
+            Handle the reuse of instances.
+            </summary>
+            <param name="newInstanceResolver">The function for lazy get an instance.</param>
+        </member>
+        <member name="T:LightCore.Lifecycle.ThreadSingletonLifecycle">
+            <summary>
+            Represents a singleton per thread lifecycle.
+            (One instance is shared within one thread).
+            </summary>
+        </member>
+        <member name="F:LightCore.Lifecycle.ThreadSingletonLifecycle._lock">
+            <summary>
+            Contains the lock object for instance creation.
+            </summary>
+        </member>
+        <member name="F:LightCore.Lifecycle.ThreadSingletonLifecycle._instanceMap">
+            <summary>
+            Holds an map with instances for different threads.
+            </summary>
+        </member>
+        <member name="M:LightCore.Lifecycle.ThreadSingletonLifecycle.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Lifecycle.ThreadSingletonLifecycle"/>.
+            </summary>
+        </member>
+        <member name="M:LightCore.Lifecycle.ThreadSingletonLifecycle.ReceiveInstanceInLifecycle(System.Func{System.Object})">
+            <summary>
+            Handle the reuse of instances.
+            </summary>
+            <param name="newInstanceResolver">The function for lazy get an instance.</param>
+        </member>
+        <member name="T:LightCore.Lifecycle.TransientLifecycle">
+            <summary>
+            Represents a lifecycle where instances cannot be reused.
+            (Every request gets a new instance).
+            </summary>
+        </member>
+        <member name="M:LightCore.Lifecycle.TransientLifecycle.ReceiveInstanceInLifecycle(System.Func{System.Object})">
+            <summary>
+            Handle the reuse of instances.
+            </summary>
+            <param name="newInstanceResolver">The function for lazy get an instance.</param>
+        </member>
+        <member name="T:LightCore.Container">
+            <summary>
+            Represents the implementation for an inversion of control container.
+            </summary>
+        </member>
+        <member name="T:LightCore.IContainer">
+            <summary>
+            Represents the contract for a inversion of control container.
+            </summary>
+        </member>
+        <member name="M:LightCore.IContainer.Resolve``1">
+            <summary>
+            Resolves a contract (include subcontracts).
+            </summary>
+            <typeparam name="TContract">The type of the contract.</typeparam>
+            <returns>The resolved instance as <typeparamref name="TContract"/>.</returns>
+        </member>
+        <member name="M:LightCore.IContainer.Resolve``1(System.String)">
+            <summary>
+            Resolves a contract by name (include subcontracts).
+            </summary>
+            <param name="name">The name.</param>
+            <typeparam name="TContract">The type of the contract.</typeparam>
+            <returns>The resolved instance as <typeparamref name="TContract"/>.</returns>
+        </member>
+        <member name="M:LightCore.IContainer.Resolve(System.Type)">
+            <summary>
+            Resolves a contract (include subcontracts).
+            </summary>
+            <param name="contractType">The contract type.</param>
+            <returns>The resolved instance as object.</returns>
+        </member>
+        <member name="M:LightCore.IContainer.Resolve(System.Type,System.String)">
+            <summary>
+            Resolves a contract by name (include subcontracts).
+            </summary>
+            <param name="contractType">The contract type.</param>
+            <param name="name">The name.</param>
+            <returns>The resolved instance as object.</returns>
+        </member>
+        <member name="M:LightCore.IContainer.ResolveAll``1">
+            <summary>
+            Resolves all contracts.
+            </summary>
+            <typeparam name="TContract">The contract type contraining the result.</typeparam>
+            <returns>The resolved instances</returns>
+        </member>
+        <member name="M:LightCore.IContainer.ResolveAll(System.Type)">
+            <summary>
+            Resolves all contracts based on a contracttype.
+            </summary>
+            <param name="contractType">The contract type contraining the result.</param>
+            <returns>The resolved instances</returns>
+        </member>
+        <member name="M:LightCore.IContainer.ResolveAll">
+            <summary>
+            Resolves all contracts.
+            </summary>
+            <returns>The resolved instances</returns>
+        </member>
+        <member name="M:LightCore.IContainer.InjectProperties(System.Object)">
+            <summary>
+            Injects properties to an existing instance.
+            </summary>
+            <param name="instance">The instance.</param>
+        </member>
+        <member name="F:LightCore.Container._registrations">
+            <summary>
+            Holds a dictionary with registered registration keys and their corresponding registrations.
+            </summary>
+        </member>
+        <member name="M:LightCore.Container.#ctor(System.Collections.Generic.IDictionary{LightCore.Registration.RegistrationKey,LightCore.Registration.RegistrationItem})">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Container"/>.
+            <param name="registrations">The registrations for this container.</param>
+            </summary>
+        </member>
+        <member name="M:LightCore.Container.Resolve``1">
+            <summary>
+            Resolves a contract (include subcontracts).
+            </summary>
+            <typeparam name="TContract">The type of the contract.</typeparam>
+            <returns>The resolved instance as <typeparamref name="TContract"/>.</returns>
+        </member>
+        <member name="M:LightCore.Container.Resolve``1(System.String)">
+            <summary>
+            Resolves a contract by name (include subcontracts).
+            </summary>
+            <param name="name">The name.</param>
+            <typeparam name="TContract">The type of the contract.</typeparam>
+            <returns>The resolved instance as <typeparamref name="TContract"/>.</returns>
+        </member>
+        <member name="M:LightCore.Container.Resolve(System.Type)">
+            <summary>
+            Resolves a contract (include subcontracts).
+            </summary>
+            <returns>The resolved instance as <see cref="T:System.Object"/>.</returns>
+        </member>
+        <member name="M:LightCore.Container.Resolve(System.Type,System.String)">
+            <summary>
+            Resolves a contract (include subcontracts).
+            </summary>
+            <param name="typeOfContract">The type of the contract.</param>
+            <param name="name">The name.</param>
+            <returns>The resolved instance as <see cref="T:System.Object"/>.</returns>
+        </member>
+        <member name="M:LightCore.Container.OpenGenericContractIsRegistered(System.Type)">
+            <summary>
+            Checks whether an open generic type, taken from the closed type (typeOfContract) is registered or not.
+            (This makes possible to use open generic types and also closed generic types at once.
+            </summary>
+            <param name="typeOfContract">The type of the contract.</param>
+            <returns><value>true</value> if the open generic type is registered, otherwise <value>false</value>.</returns>
+        </member>
+        <member name="M:LightCore.Container.ResolveAll``1">
+            <summary>
+            Resolves all contracts.
+            </summary>
+            <typeparam name="TContract">The contract type contraining the result.</typeparam>
+            <returns>The resolved instances</returns>
+        </member>
+        <member name="M:LightCore.Container.ResolveAll">
+            <summary>
+            Resolves all contracts.
+            </summary>
+            <returns>The resolved instances</returns>
+        </member>
+        <member name="M:LightCore.Container.ResolveAll(System.Type)">
+            <summary>
+            Resolves all contracts based on a contracttype.
+            </summary>
+            <param name="contractType">The contract type contraining the result.</param>
+            <returns>The resolved instances</returns>
+        </member>
+        <member name="M:LightCore.Container.InjectProperties(System.Object)">
+            <summary>
+            Injects properties to an existing instance.
+            </summary>
+            <param name="instance">The instance.</param>
+        </member>
+        <member name="M:LightCore.Container.ContractIsRegistered(System.Type)">
+            <summary>
+            Determines whether a contracttype is registered or not.
+            </summary>
+            <param name="typeOfContract">The type of contract.</param>
+            <returns><value>true</value> if an registration with the contracttype found, otherwise <value>false</value>.</returns>
+        </member>
+        <member name="T:LightCore.ContainerBuilder">
+            <summary>
+            Represents a builder that is reponsible for accepting, validating registrations
+            and builds the container with that registrations.
+            </summary>
+        </member>
+        <member name="T:LightCore.IContainerBuilder">
+            <summary>
+            Represents a builder that is reponsible for accepting, validating registrations
+            and builds the container with that registrations.
+            </summary>
+        </member>
+        <member name="M:LightCore.IContainerBuilder.Build">
+            <summary>
+            Builds the container.
+            </summary>
+            <returns>The builded container.</returns>
+        </member>
+        <member name="M:LightCore.IContainerBuilder.RegisterModule(LightCore.Registration.RegistrationModule)">
+            <summary>
+            Registers a module with registrations.
+            </summary>
+            <param name="module">The module to register within this container builder.</param>
+        </member>
+        <member name="M:LightCore.IContainerBuilder.DefaultControlledBy``1">
+            <summary>
+            Sets the default lifecycle for this container. (e.g. SingletonLifecycle, TrainsientLifecycle, ...).
+            </summary>
+            <typeparam name="TLifecycle">The default lifecycle.</typeparam>
+        </member>
+        <member name="M:LightCore.IContainerBuilder.DefaultControlledBy(System.Func{LightCore.Lifecycle.ILifecycle})">
+            <summary>
+            Sets the default lifecycle function for this container. (e.g. SingletonLifecycle, TrainsientLifecycle, ...).
+            </summary>
+            <param name="lifecycleFunction">The creator function for default lifecycle.</param>
+        </member>
+        <member name="M:LightCore.IContainerBuilder.Register``1">
+            <summary>
+            Registers a type to itself.
+            </summary>
+            <typeparam name="TSelf">The type.</typeparam>
+            <returns>An instance of <see cref="T:LightCore.Fluent.IFluentRegistration"/> that exposes fluent registration.</returns>
+        </member>
+        <member name="M:LightCore.IContainerBuilder.Register``1(System.Func{LightCore.IContainer,``0})">
+            <summary>
+            Registers a contract with an activator function.
+            </summary>
+            <typeparam name="TContract">The type of the contract.</typeparam>
+            <param name="activatorFunction">The activator as function..</param>
+            <returns>An instance of <see cref="T:LightCore.Fluent.IFluentRegistration"/> that exposes a fluent interface for registration configuration.</returns>
+        </member>
+        <member name="M:LightCore.IContainerBuilder.Register``2">
+            <summary>
+            Registers a contract with its implementationtype.
+            </summary>
+            <typeparam name="TContract">The type of the contract.</typeparam>
+            <typeparam name="TImplementation">The type of the implementation for the contract</typeparam>
+            <returns>An instance of <see cref="T:LightCore.Fluent.IFluentRegistration"/> that exposes a fluent interface for registration configuration.</returns>
+        </member>
+        <member name="M:LightCore.IContainerBuilder.Register(System.Type,System.Type)">
+            <summary>
+            Registers a contract with its implementationtype.
+            </summary>
+            <param name="typeOfContract">The type of the contract.</param>
+            <param name="typeOfImplementation">The type of the implementation for the contract</param>
+            <returns>An instance of <see cref="T:LightCore.Fluent.IFluentRegistration"/> that exposes a fluent interface for registration configuration.</returns>
+        </member>
+        <member name="P:LightCore.IContainerBuilder.ActiveRegistrationGroups">
+            <summary>
+            Gets or sets the active group configurations.
+            </summary>
+        </member>
+        <member name="F:LightCore.ContainerBuilder._activeRegistrationGroups">
+            <summary>
+            Contains the active registration groups as comma separated string.
+            </summary>
+        </member>
+        <member name="F:LightCore.ContainerBuilder._activeRegistrationGroupsInternal">
+            <summary>
+            Contains the active registration groups as array for internal use.
+            </summary>
+        </member>
+        <member name="F:LightCore.ContainerBuilder._registrations">
+            <summary>
+            Holds a list with registered registrations.
+            </summary>
+        </member>
+        <member name="F:LightCore.ContainerBuilder._registrationCallbacks">
+            <summary>
+            Holds a list with registering callbacks.
+            </summary>
+        </member>
+        <member name="F:LightCore.ContainerBuilder._defaultLifecycleFunction">
+            <summary>
+            Holds the default lifecycle function.
+            </summary>
+        </member>
+        <member name="M:LightCore.ContainerBuilder.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.ContainerBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:LightCore.ContainerBuilder.Build">
+            <summary>
+            Builds the container.
+            </summary>
+            <returns>The builded container.</returns>
+        </member>
+        <member name="M:LightCore.ContainerBuilder.RegisterModule(LightCore.Registration.RegistrationModule)">
+            <summary>
+            Registers a module with registrations.
+            </summary>
+            <param name="module">The module to register within this container builder.</param>
+        </member>
+        <member name="M:LightCore.ContainerBuilder.DefaultControlledBy``1">
+            <summary>
+            Sets the default lifecycle for this container. (e.g. SingletonLifecycle, TrainsientLifecycle, ...).
+            </summary>
+            <typeparam name="TLifecycle">The default lifecycle.</typeparam>
+        </member>
+        <member name="M:LightCore.ContainerBuilder.DefaultControlledBy(System.Func{LightCore.Lifecycle.ILifecycle})">
+            <summary>
+            Sets the default lifecycle function for this container. (e.g. SingletonLifecycle, TrainsientLifecycle, ...).
+            </summary>
+            <param name="lifecycleFunction">The creator function for default lifecycle.</param>
+        </member>
+        <member name="M:LightCore.ContainerBuilder.Register``1">
+            <summary>
+            Registers a type to itself.
+            </summary>
+            <typeparam name="TSelf">The type.</typeparam>
+            <returns>An instance of <see cref="T:LightCore.Fluent.IFluentRegistration"/> that exposes fluent registration.</returns>
+        </member>
+        <member name="M:LightCore.ContainerBuilder.Register``1(System.Func{LightCore.IContainer,``0})">
+            <summary>
+            Registers a contract with an activator function.
+            </summary>
+            <typeparam name="TContract">The type of the contract.</typeparam>
+            <param name="activatorFunction">The activator as function..</param>
+            <returns>An instance of <see cref="T:LightCore.Fluent.IFluentRegistration"/> that exposes a fluent interface for registration configuration.</returns>
+        </member>
+        <member name="M:LightCore.ContainerBuilder.AddToRegistrations(LightCore.Registration.RegistrationItem)">
+            <summary>
+            Add a registrationItem to the registrations.
+            </summary>
+            <param name="registrationItem">The registration to add.</param>
+        </member>
+        <member name="M:LightCore.ContainerBuilder.Register``2">
+            <summary>
+            Registers a contract with its implementationtype.
+            
+             Can be a generic contract (open generic types) with its implementationtype.
+            e.g. builder.RegisterGeneric(typeof(IRepository{T}), typeof(Repository{T}));
+            container.Resolve{IRepository{Foo}}();
+            </summary>
+            <typeparam name="TContract">The type of the contract.</typeparam>
+            <typeparam name="TImplementation">The type of the implementation for the contract</typeparam>
+            <returns>An instance of <see cref="T:LightCore.Fluent.IFluentRegistration"/> that exposes a fluent interface for registration configuration.</returns>
+        </member>
+        <member name="M:LightCore.ContainerBuilder.Register(System.Type,System.Type)">
+            <summary>
+            Registers a contract with its implementationtype.
+            </summary>
+            <param name="typeOfContract">The type of the contract.</param>
+            <param name="typeOfImplementation">The type of the implementation for the contract</param>
+            <returns>An instance of <see cref="T:LightCore.Fluent.IFluentRegistration"/> that exposes a fluent interface for registration configuration.</returns>
+        </member>
+        <member name="P:LightCore.ContainerBuilder.ActiveRegistrationGroups">
+            <summary>
+            Gets or sets the active group configurations.
+            </summary>
+        </member>
+        <member name="T:LightCore.ResolutionFailedException">
+            <summary>
+            Thrown when resolving of a type failed.
+            </summary>
+        </member>
+        <member name="M:LightCore.ResolutionFailedException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.ResolutionFailedException"/> type.
+            </summary>
+        </member>
+        <member name="M:LightCore.ResolutionFailedException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.ResolutionFailedException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+        </member>
+        <member name="M:LightCore.ResolutionFailedException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.ResolutionFailedException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="innerException">The inner exception</param>
+        </member>
+        <member name="M:LightCore.ResolutionFailedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.ResolutionFailedException"/> type.
+            </summary>
+            <param name="info">The serialization info.</param>
+            <param name="context">The context.</param>
+        </member>
+        <member name="T:LightCore.ExtensionMethods.System.Collections.Generic.SystemCollectionsGenericExtensions">
+            <summary>
+            Represents extensionmethods for System.Collection.Generic namespace.
+            </summary>
+        </member>
+        <member name="M:LightCore.ExtensionMethods.System.Collections.Generic.SystemCollectionsGenericExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            Executes an action for each item in the enumeration.
+            </summary>
+            <typeparam name="T">The type of an item.</typeparam>
+            <param name="source">The source.</param>
+            <param name="action">The action to execute.</param>
+        </member>
+        <member name="M:LightCore.ExtensionMethods.System.Collections.Generic.SystemCollectionsGenericExtensions.Convert``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            Converts an enuneration from an inputtype to an outputtype,
+            with the given converter function.
+            </summary>
+            <typeparam name="TInput">The inputtype.</typeparam>
+            <typeparam name="TOutput">The outputtype.</typeparam>
+            <param name="source">The source.</param>
+            <param name="converter">The converter function.</param>
+            <returns>The converted source.</returns>
+        </member>
+        <member name="T:LightCore.ExtensionMethods.System.StringExtensions">
+            <summary>
+            Represents extensionmethods for <see cref="T:System.String"/> type.
+            </summary>
+        </member>
+        <member name="M:LightCore.ExtensionMethods.System.StringExtensions.FormatWith(System.String,System.Object[])">
+            <summary>
+            Formats a string with given arguments.
+            </summary>
+            <param name="source">The format string.</param>
+            <param name="values">The values.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="T:LightCore.Fluent.FluentRegistration">
+            <summary>
+            Represents the fluent interface for registration.
+            </summary>
+        </member>
+        <member name="T:LightCore.Fluent.IFluentRegistration">
+            <summary>
+            Represents the fluent interface for the registration.
+            </summary>
+        </member>
+        <member name="T:LightCore.Fluent.IFluentInterface">
+            <summary>
+            Helper interface used to hide the base <see cref="T:System.Object"/> 
+            members from the fluent API to make for much cleaner 
+            Visual Studio intellisense experience.
+            </summary>
+        </member>
+        <member name="M:LightCore.Fluent.IFluentInterface.GetType">
+            <summary/>
+        </member>
+        <member name="M:LightCore.Fluent.IFluentInterface.GetHashCode">
+            <summary/>
+        </member>
+        <member name="M:LightCore.Fluent.IFluentInterface.ToString">
+            <summary/>
+        </member>
+        <member name="M:LightCore.Fluent.IFluentInterface.Equals(System.Object)">
+            <summary/>
+        </member>
+        <member name="M:LightCore.Fluent.IFluentRegistration.ControlledBy``1">
+            <summary>
+            Treat the current registration to use the passed lifecycle. (e.g. SingletonLifecycle, TrainsientLifecycle, ...).
+            </summary>
+            <typeparam name="TLifecycle">The lifecycle type.</typeparam>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="M:LightCore.Fluent.IFluentRegistration.ControlledBy(System.Type)">
+            <summary>
+            Treat the current registration to use the passed lifecycle. (e.g. SingletonLifecycle, TrainsientLifecycle, ...).
+            </summary>
+            <param name="type">The lifecycle type.</param>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="M:LightCore.Fluent.IFluentRegistration.WithArguments(System.Object[])">
+            <summary>
+            Adds arguments to the registration.
+            </summary>
+            <param name="arguments">The arguments.</param>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="M:LightCore.Fluent.IFluentRegistration.WithName(System.String)">
+            <summary>
+            Gives a name to the registration.
+            </summary>
+            <param name="name">The registration name.</param>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="M:LightCore.Fluent.IFluentRegistration.WithGroup(System.String)">
+            <summary>
+            Gives a group association to the registration.
+            </summary>
+            <param name="group">The registration name.</param>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="F:LightCore.Fluent.FluentRegistration._registrationItem">
+            <summary>
+            The current registration.
+            </summary>
+        </member>
+        <member name="M:LightCore.Fluent.FluentRegistration.#ctor(LightCore.Registration.RegistrationItem)">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Fluent.FluentRegistration"/> type.
+            </summary>
+            <param name="registrationItem">The current mapping item.</param>
+        </member>
+        <member name="M:LightCore.Fluent.FluentRegistration.ControlledBy``1">
+            <summary>
+            Treat the current registration to use the passed lifecycle. (e.g. SingletonLifecycle, TrainsientLifecycle, ...).
+            </summary>
+            <typeparam name="TLifecycle">The lifecycle type.</typeparam>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="M:LightCore.Fluent.FluentRegistration.ControlledBy(System.Type)">
+            <summary>
+            Treat the current registration to use the passed lifecycle. (e.g. SingletonLifecycle, TrainsientLifecycle, ...).
+            </summary>
+            <param name="type">The lifecycle type.</param>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="M:LightCore.Fluent.FluentRegistration.WithArguments(System.Object[])">
+            <summary>
+            Adds arguments to the registration.
+            </summary>
+            <param name="arguments">The arguments.</param>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="M:LightCore.Fluent.FluentRegistration.WithName(System.String)">
+            <summary>
+            Gives a name to the registration.
+            </summary>
+            <param name="name">The registration name.</param>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="M:LightCore.Fluent.FluentRegistration.WithGroup(System.String)">
+            <summary>
+            Gives a group association to the registration.
+            </summary>
+            <param name="group">The registration name.</param>
+            <returns>The instance itself to get fluent working.</returns>
+        </member>
+        <member name="M:LightCore.Fluent.FluentRegistration.LightCore#Fluent#IFluentInterface#GetType">
+            <summary>
+            Represents the fluent interface for registration.
+            </summary>
+        </member>
+        <member name="T:LightCore.RegistrationAlreadyExistsException">
+            <summary>
+            Thrown when a registration already exists in container.
+            </summary>
+        </member>
+        <member name="M:LightCore.RegistrationAlreadyExistsException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.RegistrationAlreadyExistsException"/> type.
+            </summary>
+        </member>
+        <member name="M:LightCore.RegistrationAlreadyExistsException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.RegistrationAlreadyExistsException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+        </member>
+        <member name="M:LightCore.RegistrationAlreadyExistsException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.RegistrationAlreadyExistsException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="innerException">The inner exception</param>
+        </member>
+        <member name="M:LightCore.RegistrationAlreadyExistsException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.RegistrationAlreadyExistsException"/> type.
+            </summary>
+            <param name="info">The serialization info.</param>
+            <param name="context">The context.</param>
+        </member>
+        <member name="T:LightCore.RegistrationNotFoundException">
+            <summary>
+            Thrown when a mapping not found for resolving a type.
+            </summary>
+        </member>
+        <member name="M:LightCore.RegistrationNotFoundException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.RegistrationNotFoundException"/> type.
+            </summary>
+        </member>
+        <member name="M:LightCore.RegistrationNotFoundException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.RegistrationNotFoundException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+        </member>
+        <member name="M:LightCore.RegistrationNotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.RegistrationNotFoundException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="innerException">The inner exception</param>
+        </member>
+        <member name="M:LightCore.RegistrationNotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.RegistrationNotFoundException"/> type.
+            </summary>
+            <param name="info">The serialization info.</param>
+            <param name="context">The context.</param>
+        </member>
+        <member name="T:LightCore.Registration.RegistrationItem">
+            <summary>
+            Represents a registration.
+            </summary>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationItem.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:LightCore.Registration.RegistrationItem"/>.
+            </summary>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationItem.#ctor(LightCore.Registration.RegistrationKey)">
+            <summary>
+            Creates a new instance of <see cref="T:LightCore.Registration.RegistrationItem"/>.
+            </summary>
+            <param name="key">The registration key as <see cref="T:LightCore.Registration.RegistrationKey"/>.</param>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationItem.ActivateInstance(LightCore.Container)">
+            <summary>
+            Activates the current registration.
+            </summary>
+            <param name="container">The container to resolve inner depenencies.</param>
+            <returns>The activated instance.</returns>
+        </member>
+        <member name="P:LightCore.Registration.RegistrationItem.Key">
+            <summary>
+            Gets the key for this registration.
+            </summary>
+        </member>
+        <member name="P:LightCore.Registration.RegistrationItem.ImplementationType">
+            <summary>
+            Gets or sets the implementation type for this registration.
+            </summary>
+        </member>
+        <member name="P:LightCore.Registration.RegistrationItem.Activator">
+            <summary>
+            Gets or sets the activator.
+            </summary>
+        </member>
+        <member name="P:LightCore.Registration.RegistrationItem.Lifecycle">
+            <summary>
+            Gets or sets the scope that holds the reuse strategy.
+            </summary>
+        </member>
+        <member name="P:LightCore.Registration.RegistrationItem.Arguments">
+            <summary>
+            Gets or sets the arguments for object creations.
+            </summary>
+        </member>
+        <member name="T:LightCore.Registration.RegistrationKey">
+            <summary>
+            Represents a registration key.
+            </summary>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationKey.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:LightCore.Registration.RegistrationItem"/>.
+            </summary>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationKey.#ctor(System.Type)">
+            <summary>
+            Creates a new instance of <see cref="T:System.Type"/>.
+            </summary>
+            <param name="contractType">The contract type as <see cref="T:LightCore.Registration.RegistrationItem"/>.</param>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationKey.#ctor(System.Type,System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:System.Type"/>.
+            </summary>
+            <param name="contractType">The contract type as <see cref="T:LightCore.Registration.RegistrationItem"/>.</param>
+            <param name="name">The name.</param>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationKey.#ctor(System.Type,System.String,System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:System.Type"/>.
+            </summary>
+            <param name="contractType">The contract type as <see cref="T:LightCore.Registration.RegistrationItem"/>.</param>
+            <param name="name">The name.</param>
+            <param name="group">The group.</param>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationKey.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+            </summary>
+            <returns>
+            true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+            </returns>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception><filterpriority>2</filterpriority>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationKey.Equals(LightCore.Registration.RegistrationKey)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <returns>
+            true if the current object is equal to the <paramref name="otherKey"/> parameter; otherwise, false.
+            </returns>
+            <param name="otherKey">An object to compare with this object.</param>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationKey.op_Equality(LightCore.Registration.RegistrationKey,LightCore.Registration.RegistrationKey)">
+            <summary>
+            Represents the behaviour for the equals operator.
+            </summary>
+            <param name="leftKey">The left key.</param>
+            <param name="rightKey">The right key.</param>
+            <returns><value>true</value> if the registration keys equals.</returns>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationKey.op_Inequality(LightCore.Registration.RegistrationKey,LightCore.Registration.RegistrationKey)">
+            <summary>
+            Represents the behaviour for the not equals operator.
+            </summary>
+            <param name="leftKey">The left key.</param>
+            <param name="rightKey">The right key.</param>
+            <returns><value>true</value> if the registration keys equals.</returns>
+        </member>
+        <member name="M:LightCore.Registration.RegistrationKey.GetHashCode">
+            <summary>
+            Serves as a hash function for a particular type. 
+            </summary>
+            <returns>
+            A hash code for the current <see cref="T:System.Object"/>.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="P:LightCore.Registration.RegistrationKey.Name">
+            <summary>
+            The name for the registration.
+            </summary>
+        </member>
+        <member name="P:LightCore.Registration.RegistrationKey.Group">
+            <summary>
+             The group for the registration.
+            </summary>
+        </member>
+        <member name="P:LightCore.Registration.RegistrationKey.ContractType">
+            <summary>
+            The contract type.
+            </summary>
+        </member>
+        <member name="T:LightCore.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:LightCore.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:LightCore.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:LightCore.Properties.Resources.ConstructorNotFoundFormat">
+            <summary>
+              Looks up a localized string similar to Constructor for implementation type &apos;{0}&apos; not found..
+            </summary>
+        </member>
+        <member name="P:LightCore.Properties.Resources.InvalidRegistrationFormat">
+            <summary>
+              Looks up a localized string similar to Registration to self for type &apos;{0}&apos; is invalid, because the type is abstract or an interface type..
+            </summary>
+        </member>
+        <member name="P:LightCore.Properties.Resources.RegistrationForContractAndNameAlreadyExistsFormat">
+            <summary>
+              Looks up a localized string similar to Registration for contract &apos;{0}&apos; and name &apos;{1}&apos; already exists..
+            </summary>
+        </member>
+        <member name="P:LightCore.Properties.Resources.RegistrationForContractAndNameNotFoundFormat">
+            <summary>
+              Looks up a localized string similar to Registration for contract &apos;{0}&apos; and name &apos;{1}&apos; not found..
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LightCore.Integration.Web</name>
+    </assembly>
+    <members>
+        <member name="T:LightCore.Integration.Web.ContainerAccessorNotImplementedException">
+            <summary>
+            Thrown when the container accessor container accessor is not implemented.
+            </summary>
+        </member>
+        <member name="M:LightCore.Integration.Web.ContainerAccessorNotImplementedException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.Integration.Web.ContainerAccessorNotImplementedException"/> type.
+            </summary>
+        </member>
+        <member name="M:LightCore.Integration.Web.ContainerAccessorNotImplementedException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.Integration.Web.ContainerAccessorNotImplementedException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+        </member>
+        <member name="M:LightCore.Integration.Web.ContainerAccessorNotImplementedException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.Integration.Web.ContainerAccessorNotImplementedException"/> type.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="innerException">The inner exception</param>
+        </member>
+        <member name="M:LightCore.Integration.Web.ContainerAccessorNotImplementedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LightCore.Integration.Web.ContainerAccessorNotImplementedException"/> type.
+            </summary>
+            <param name="info">The serialization info.</param>
+            <param name="context">The context.</param>
+        </member>
+        <member name="T:LightCore.Integration.Web.DependencyInjectionModule">
+            <summary>
+            Represents a <see cref="T:System.Web.IHttpModule"/> for property injection on ASP.NET WebForms.
+            </summary>
+        </member>
+        <member name="F:LightCore.Integration.Web.DependencyInjectionModule._application">
+            <summary>
+            The current application.
+            </summary>
+        </member>
+        <member name="F:LightCore.Integration.Web.DependencyInjectionModule._container">
+            <summary>
+            The current container.
+            </summary>
+        </member>
+        <member name="M:LightCore.Integration.Web.DependencyInjectionModule.Init(System.Web.HttpApplication)">
+            <summary>
+            Initializes a module and prepares it to handle requests.
+            </summary>
+            <param name="context">An <see cref="T:System.Web.HttpApplication"/> that provides access to the methods, properties, and events common to all application objects within an ASP.NET application </param>
+        </member>
+        <member name="M:LightCore.Integration.Web.DependencyInjectionModule.Dispose">
+            <summary>
+            Disposes of the resources (other than memory) used by the module that implements <see cref="T:System.Web.IHttpModule"/>.
+            </summary>
+        </member>
+        <member name="M:LightCore.Integration.Web.DependencyInjectionModule.OnPreRequestHandlerExecute(System.Object,System.EventArgs)">
+            <summary>
+            Executes before the <see cref="T:System.Web.IHttpHandler"/> executes.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The eventargs.</param>
+        </member>
+        <member name="M:LightCore.Integration.Web.DependencyInjectionModule.InjectPropertiesOnControls(System.Web.UI.Control)">
+            <summary>
+            Inject properties on a <see cref="T:System.Web.UI.Control"/> recursive.
+            </summary>
+            <param name="parent">The parent control.</param>
+        </member>
+        <member name="T:LightCore.Integration.Web.IContainerAccessor">
+            <summary>
+            Represents an accessor for <see cref="T:LightCore.IContainer"/>.
+            </summary>
+        </member>
+        <member name="P:LightCore.Integration.Web.IContainerAccessor.Container">
+            <summary>
+            Gets the container.
+            </summary>
+        </member>
+        <member name="T:LightCore.Integration.Web.Lifecycle.HttpRequestLifecycle">
+            <summary>
+            Represents a lifecycle for one instance per http request (ASP.NET).
+            (One instance is shared within the same http request).
+            </summary>
+        </member>
+        <member name="F:LightCore.Integration.Web.Lifecycle.HttpRequestLifecycle._lock">
+            <summary>
+            Contains the lock object for instance creation.
+            </summary>
+        </member>
+        <member name="F:LightCore.Integration.Web.Lifecycle.HttpRequestLifecycle._instanceIdentifier">
+            <summary>
+            Represents an identifier for the current instance.
+            </summary>
+        </member>
+        <member name="M:LightCore.Integration.Web.Lifecycle.HttpRequestLifecycle.ReceiveInstanceInLifecycle(System.Func{System.Object})">
+            <summary>
+            Handle the reuse of instances.
+            One instance per http request (ASP.NET).
+            </summary>
+            <param name="newInstanceResolver">The resolve function for a new instance.</param>
+        </member>
+        <member name="P:LightCore.Integration.Web.Lifecycle.HttpRequestLifecycle.CurrentContext">
+            <summary>
+            The current context for unit testing.
+            </summary>
+        </member>
+        <member name="T:LightCore.Integration.Web.Mvc.ControllerFactory">
+            <summary>
+            Represents a default controller factory that works with a <see cref="T:LightCore.IContainer"/>.
+            </summary>
+        </member>
+        <member name="T:LightCore.Integration.Web.Mvc.ControllerFactoryBase">
+            <summary>
+            Represents a base controller factory that works with a <see cref="T:LightCore.IContainer"/>.
+            Can be used as base class for custom implementations.
+            </summary>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerFactoryBase.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Integration.Web.Mvc.ControllerFactoryBase"/>.
+            </summary>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerFactoryBase.#ctor(LightCore.IContainer)">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Integration.Web.Mvc.ControllerFactoryBase"/>.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerFactoryBase.CreateController(System.Web.Routing.RequestContext,System.String)">
+            <summary>
+            Creates the controller.
+            Resolves it by name as registered from <see cref="T:LightCore.Integration.Web.Mvc.ControllerRegistrationModule"/>.
+            </summary>
+            <param name="requestContext">The request context.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <returns>
+            The controller.
+            </returns>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerFactoryBase.CreateControllerCore(System.Web.Routing.RequestContext,System.String)">
+            <summary>
+            Creates the controller.
+            Resolves it by name as registered from <see cref="T:LightCore.Integration.Web.Mvc.ControllerRegistrationModule"/>.
+            </summary>
+            <param name="requestContext">The request context.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <returns>
+            The controller.
+            </returns>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerFactoryBase.ReleaseController(System.Web.Mvc.IController)">
+            <summary>
+            Releases the controller.
+            </summary>
+            <param name="controller">The controller.</param>
+        </member>
+        <member name="P:LightCore.Integration.Web.Mvc.ControllerFactoryBase.Container">
+            <summary>
+            The container.
+            </summary>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerFactory.#ctor(LightCore.IContainer)">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Integration.Web.Mvc.ControllerFactory"/>.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerFactory.CreateControllerCore(System.Web.Routing.RequestContext,System.String)">
+            <summary>
+            Creates the controller.
+            Resolves it by name as registered from <see cref="T:LightCore.Integration.Web.Mvc.ControllerRegistrationModule"/>.
+            </summary>
+            <param name="requestContext">The request context.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <returns>
+            The controller.
+            </returns>
+        </member>
+        <member name="T:LightCore.Integration.Web.Mvc.ControllerRegistrationModule">
+            <summary>
+            Represents a <see cref="T:LightCore.Registration.RegistrationModule"/> for ASP.NET MVC controllers.
+            </summary>
+        </member>
+        <member name="F:LightCore.Integration.Web.Mvc.ControllerRegistrationModule._controllerAssemblies">
+            <summary>
+            The assembly from the controller implementation types.
+            </summary>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerRegistrationModule.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Integration.Web.Mvc.ControllerRegistrationModule"/>.
+            </summary>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerRegistrationModule.#ctor(System.Reflection.Assembly[])">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Integration.Web.Mvc.ControllerRegistrationModule"/>.
+            </summary>
+            <param name="controllerAssemblies">The controller assemblies</param>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerRegistrationModule.#ctor(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Integration.Web.Mvc.ControllerRegistrationModule"/>.
+            </summary>
+            <param name="controllerAssemblies">The controller assemblies</param>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerRegistrationModule.#ctor(System.String[])">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Integration.Web.Mvc.ControllerRegistrationModule"/>.
+            </summary>
+            <param name="assemblyNames">The names where controller types lives in.</param>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerRegistrationModule.#ctor(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Initializes a new instance of <see cref="T:LightCore.Integration.Web.Mvc.ControllerRegistrationModule"/>.
+            </summary>
+            <param name="assemblyNames">The names where controller types lives in.</param>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerRegistrationModule.Register(LightCore.IContainerBuilder)">
+            <summary>
+            Registers all controllers by its name.
+            </summary>
+            <param name="containerBuilder">The container builder.</param>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerRegistrationModule.RegisterControllers(System.Reflection.Assembly,LightCore.IContainerBuilder)">
+            <summary>
+            Registers all controllers within one assembly.
+            </summary>
+            <param name="controllerAssembly">The controller assembly.</param>
+            <param name="containerBuilder">The container builder.</param>
+        </member>
+        <member name="M:LightCore.Integration.Web.Mvc.ControllerRegistrationModule.GetControllerName(System.String)">
+            <summary>
+            Gets the controllername used for registration from typename.
+            </summary>
+            <param name="typeName">The typename.</param>
+            <returns>The controllername used for registration.</returns>
+        </member>
+    </members>
+</doc>
