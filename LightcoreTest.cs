@@ -82,7 +82,7 @@
         }
 
         [Test]
-        public void TopLevelObjectCanBeSingletonWithBuilderDefaultControlledBy()
+        public void BuilderDefaultControlledBySetsAllObjectsToSingleton()
         {
             var builder = new ContainerBuilder();
             builder.DefaultControlledBy<SingletonLifecycle>(); // do this before the register
@@ -95,6 +95,8 @@
             SweetShop sweetShop2 = container.Resolve<SweetShop>();
 
             Assert.IsTrue(ReferenceEquals(sweetShop, sweetShop2), "Root objects are equal");
+            Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine), "Contained objects are equal");
+            Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser), "JellybeanDispenser are equal");
         }
 
         [Test]
