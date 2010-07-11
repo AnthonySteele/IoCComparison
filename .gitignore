@@ -1,0 +1,8 @@
+
+obj/
+bin/
+_ReSharper.IoCComparison/
+_UpgradeReport_Files/
+IoCComparison.5.1.ReSharper.user
+IoCComparison.csproj.user
+IoCComparison.suo

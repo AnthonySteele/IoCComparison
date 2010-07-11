@@ -1,7 +1,6 @@
-﻿using NUnit.Framework;
-
-namespace IoCComparison
+﻿namespace IoCComparison
 {
+    using NUnit.Framework;
     using LightCore;
     using LightCore.Lifecycle;
 
@@ -51,7 +50,7 @@ namespace IoCComparison
         }
 
         [Test]
-        public void OnlyTopLevelOjectHasNewInstanceEachTime()
+        public void ByDefaultAllObjectsHaveNewInstanceEachTime()
         {
             var builder = new ContainerBuilder();
             builder.Register<IJellybeanDispenser, VanillaJellybeanDispenser>();
@@ -63,9 +62,8 @@ namespace IoCComparison
             SweetShop sweetShop2 = container.Resolve<SweetShop>();
 
             Assert.IsFalse(ReferenceEquals(sweetShop, sweetShop2), "Root objects are equal");
-            // NB: These should be new instances, but are not
-            Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine), "Contained objects are equal");
-            Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser), "services are equal");
+            Assert.IsFalse(ReferenceEquals(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine), "Contained objects are equal");
+            Assert.IsFalse(ReferenceEquals(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser), "services are equal");
         }
 
         [Test]
@@ -87,7 +85,7 @@ namespace IoCComparison
         public void TopLevelObjectCanBeSingletonWithBuilderDefaultControlledBy()
         {
             var builder = new ContainerBuilder();
-            builder.DefaultControlledBy<SingletonLifecycle>(); // do this before
+            builder.DefaultControlledBy<SingletonLifecycle>(); // do this before the register
             builder.Register<IJellybeanDispenser, VanillaJellybeanDispenser>();
             builder.Register<SweetVendingMachine>();
             builder.Register<SweetShop>();
@@ -100,32 +98,13 @@ namespace IoCComparison
         }
 
         [Test]
-        public void JellybeanDispenserDoesNotHaveNewInstanceEachTime()
-        {
-            var builder = new ContainerBuilder();
-            builder.Register<IJellybeanDispenser, VanillaJellybeanDispenser>();
-            builder.Register<SweetVendingMachine>()
-                .ControlledBy<TransientLifecycle>(); // has no effect!
-            builder.Register<SweetShop>();
-
-            IContainer container = builder.Build();
-            SweetShop sweetShop = container.Resolve<SweetShop>();
-            SweetShop sweetShop2 = container.Resolve<SweetShop>();
-
-            Assert.IsFalse(ReferenceEquals(sweetShop, sweetShop2), "Root objects are equal");
-            // NB: These should be new instances, but are not
-            Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine), "Contained objects are equal");
-            Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser), "services are equal");
-        }
-
-        [Test]
         public void CanMakeSingletonJellybeanDispenser()
         {
             var builder = new ContainerBuilder();
             builder.Register<IJellybeanDispenser, VanillaJellybeanDispenser>()
                 .ControlledBy<SingletonLifecycle>(); // is the default
             builder.Register<SweetVendingMachine>()
-                .ControlledBy<TransientLifecycle>(); // has no effect
+                .ControlledBy<TransientLifecycle>(); 
             builder.Register<SweetShop>();
 
             IContainer container = builder.Build();
@@ -133,8 +112,7 @@ namespace IoCComparison
             SweetShop sweetShop2 = container.Resolve<SweetShop>();
 
             Assert.IsFalse(ReferenceEquals(sweetShop, sweetShop2), "Root objects are equal");
-            // NB: These should be new instances, but are not
-            Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine), "Contained objects are equal");
+            Assert.IsFalse(ReferenceEquals(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine), "Contained objects are equal");
 
             // should be same service
             Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser), "services are not equal");

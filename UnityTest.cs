@@ -19,7 +19,6 @@ namespace IoCComparison
             Assert.AreEqual(Jellybean.Vanilla, sweetShop.DispenseJellyBean());
         }
 
-
         [Test]
         public void CanMakeSweetShopWithVanillaJellybeansImplicitRegiastration()
         {
