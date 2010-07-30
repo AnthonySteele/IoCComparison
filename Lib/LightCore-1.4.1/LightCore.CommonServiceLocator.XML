@@ -26,7 +26,7 @@
             Get an instance by service type and name (key).
             </summary>
             <param name="serviceType">The service type.</param>
-            <param name="key">The key.</param>
+            <param name="key">The key, (Supply null, named dependecies are not allowed).</param>
             <returns>The requested instance as object.</returns>
         </member>
         <member name="M:LightCore.CommonServiceLocator.LightCoreAdapter.DoGetAllInstances(System.Type)">

@@ -34,6 +34,35 @@
             <param name="info">The serialization info.</param>
             <param name="context">The context.</param>
         </member>
+        <member name="T:LightCore.Configuration.Argument">
+            <summary>
+            Represents a registration argument.
+            </summary>
+        </member>
+        <member name="M:LightCore.Configuration.Argument.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="P:LightCore.Configuration.Argument.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:LightCore.Configuration.Argument.Value">
+            <summary>
+            Gets or sets the value.
+            </summary>
+        </member>
+        <member name="P:LightCore.Configuration.Argument.Type">
+            <summary>
+            Gets or sets the type.
+            </summary>
+        </member>
         <member name="T:LightCore.Configuration.RegistrationGroup">
             <summary>
             Represents a registration group.
@@ -44,9 +73,23 @@
             Initializes a new instance of <see cref="T:LightCore.Configuration.RegistrationGroup"/>.
             </summary>
         </member>
+        <member name="M:LightCore.Configuration.RegistrationGroup.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
         <member name="P:LightCore.Configuration.RegistrationGroup.Name">
             <summary>
-            Gets or sets the name.
+            Gets or sets the registration group name.
+            </summary>
+        </member>
+        <member name="P:LightCore.Configuration.RegistrationGroup.Enabled">
+            <summary>
+            Gets or sets whether the registration group is enabled or not.
             </summary>
         </member>
         <member name="P:LightCore.Configuration.RegistrationGroup.Registrations">
@@ -143,12 +186,37 @@
         </member>
         <member name="P:LightCore.Configuration.Properties.Resources.ActiveRegistrationGroupNotFoundFormat">
             <summary>
-              Looks up a localized string similar to Active registration group with name &apos;{0}&apos; was not found..
+              Looks up a localized string similar to Active registration group with name &apos;{0}&apos; was not found. Maybe its the case sensitivity..
+            </summary>
+        </member>
+        <member name="P:LightCore.Configuration.Properties.Resources.BadStreamContent">
+            <summary>
+              Looks up a localized string similar to Bad stream content, empty or malformed not found..
+            </summary>
+        </member>
+        <member name="P:LightCore.Configuration.Properties.Resources.ConfigurationFileNotFoundFormat">
+            <summary>
+              Looks up a localized string similar to Xml configuration file not found. Path: &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:LightCore.Configuration.Properties.Resources.ContractTypeCannotBeEmptyFormat">
+            <summary>
+              Looks up a localized string similar to Contract type for following registration cannot be empty. Registration: &apos;{0}&apos;..
             </summary>
         </member>
         <member name="P:LightCore.Configuration.Properties.Resources.CouldNotLoadTypeFormat">
             <summary>
-              Looks up a localized string similar to Could not load type: &apos;{0}&apos;..
+              Looks up a localized string similar to Could not load type: &apos;{0}&apos;, maybe wrong full qualified info. Try e.g.: &quot;Namespace.Type, Assembly&quot;. Or check bin folder and copy DLLs if necessary..
+            </summary>
+        </member>
+        <member name="P:LightCore.Configuration.Properties.Resources.ImplementationTypeCannotBeEmptyFormat">
+            <summary>
+              Looks up a localized string similar to Implementation type for following registration cannot be empty. Registration: &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:LightCore.Configuration.Properties.Resources.SectionNotFoundFormat">
+            <summary>
+              Looks up a localized string similar to Configuration section &apos;{0}&apos; not found..
             </summary>
         </member>
         <member name="T:LightCore.Configuration.Registration">
@@ -156,9 +224,23 @@
             Represents a registration configuration.
             </summary>
         </member>
-        <member name="P:LightCore.Configuration.Registration.Name">
+        <member name="M:LightCore.Configuration.Registration.#ctor">
             <summary>
-            Gets or sets the name.
+            Initializes a new instance of <see cref="T:LightCore.Configuration.Registration"/>.
+            </summary>
+        </member>
+        <member name="M:LightCore.Configuration.Registration.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="P:LightCore.Configuration.Registration.Enabled">
+            <summary>
+            Gets or sets whether the registration group is enabled or not.
             </summary>
         </member>
         <member name="P:LightCore.Configuration.Registration.ContractType">
@@ -171,14 +253,14 @@
             Gets or sets the identifier for the implementation type.
             </summary>
         </member>
-        <member name="P:LightCore.Configuration.Registration.Arguments">
-            <summary>
-            Gets or sets the arguments.
-            </summary>
-        </member>
         <member name="P:LightCore.Configuration.Registration.Lifecycle">
             <summary>
             Gets or sets the lifecycle
+            </summary>
+        </member>
+        <member name="P:LightCore.Configuration.Registration.Arguments">
+            <summary>
+            Gets or sets the arguments.
             </summary>
         </member>
         <member name="T:LightCore.Configuration.RegistrationLoader">
@@ -220,6 +302,14 @@
             </summary>
             <param name="rawType">The alias or full qualified type string.</param>
             <returns>The rawType, if no alias found, otherwise the full qualified type string according to the alias data.</returns>
+        </member>
+        <member name="M:LightCore.Configuration.RegistrationLoader.FindAlias(LightCore.Configuration.TypeAlias,System.String)">
+            <summary>
+            Finds an alias. Supports multiple alias pro alias instance.
+            </summary>
+            <param name="alias">The alias.</param>
+            <param name="rawType">The rawType.</param>
+            <returns><value>true</value> if the alias was found, otherwise <value>false</value>.</returns>
         </member>
         <member name="M:LightCore.Configuration.RegistrationLoader.LoadType(System.String)">
             <summary>
