@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
-using Funq;
-
-namespace IoCComparison
+﻿namespace IoCComparison
 {
+    using NUnit.Framework;
+    using Funq;
+
     [TestFixture]
     public class FunqTest
     {
