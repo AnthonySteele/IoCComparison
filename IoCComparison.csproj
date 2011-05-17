@@ -57,15 +57,11 @@
     </Reference>
     <Reference Include="Castle.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Castle-Windsor-2.1.1\bin\net-3.5\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.MicroKernel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Castle-Windsor-2.1.1\bin\net-3.5\Castle.MicroKernel.dll</HintPath>
+      <HintPath>Lib\Castle-Windsor-2.5.3\dotNet40\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Windsor, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Castle-Windsor-2.1.1\bin\net-3.5\Castle.Windsor.dll</HintPath>
+      <HintPath>Lib\Castle-Windsor-2.5.3\dotNet40\Castle.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="Funq, Version=0.1.226.1, Culture=neutral, PublicKeyToken=e035bc90764f5360, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

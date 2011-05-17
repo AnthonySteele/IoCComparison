@@ -11,12 +11,15 @@ namespace IoCComparison
     public class WindsorTest
     {
         [Test]
-        public void CanMakeSweetShopWithVanillaJellybeans()
+        public void CanMakeSweetShopWithVanillaJellybeansWithOldSyntax()
         {
             WindsorContainer container = new WindsorContainer();
+            // disable the deprecated! unclean! warning that we know the "AddComponent" method will emit 
+            #pragma warning disable 612,618
             container.AddComponent<SweetShop>();
             container.AddComponent<SweetVendingMachine>();
             container.AddComponent<IJellybeanDispenser, VanillaJellybeanDispenser>();
+            #pragma warning restore 612,618
 
             SweetShop sweetShop = container.Resolve<SweetShop>();
 
@@ -24,7 +27,7 @@ namespace IoCComparison
         }
 
         [Test]
-        public void CanMakeSweetShopWithVanillaJellybeansALternateSyntax()
+        public void CanMakeSweetShopWithVanillaJellybeans()
         {
             WindsorContainer container = new WindsorContainer();
             container.Register(
@@ -41,9 +44,10 @@ namespace IoCComparison
         public void CanMakeSweetShopWithStrawberryJellybeans()
         {
             WindsorContainer container = new WindsorContainer();
-            container.AddComponent<SweetShop>();
-            container.AddComponent<SweetVendingMachine>();
-            container.AddComponent<IJellybeanDispenser, StrawberryJellybeanDispenser>();
+            container.Register(
+                Component.For<SweetShop>(),
+                Component.For<SweetVendingMachine>(),
+                Component.For<IJellybeanDispenser>().ImplementedBy<StrawberryJellybeanDispenser>());
 
             SweetShop sweetShop = container.Resolve<SweetShop>();
 
@@ -56,9 +60,12 @@ namespace IoCComparison
             WindsorContainer container = new WindsorContainer();
             // windsor seems to default to retained singletons, 
             // so we add LifestyleType.Transient to make them new each time
-            container.AddComponentLifeStyle<SweetShop>(LifestyleType.Transient);
-            container.AddComponentLifeStyle<SweetVendingMachine>(LifestyleType.Transient);
-            container.AddComponentLifeStyle<IJellybeanDispenser, VanillaJellybeanDispenser>(LifestyleType.Transient);
+            container.Register(
+                Component.For<SweetShop>().LifeStyle.Is(LifestyleType.Transient),
+                Component.For<SweetVendingMachine>().LifeStyle.Is(LifestyleType.Transient),
+                Component.For<IJellybeanDispenser>().ImplementedBy<VanillaJellybeanDispenser>()
+                    .LifeStyle.Is(LifestyleType.Transient));
+
 
             SweetShop sweetShop = container.Resolve<SweetShop>();
             SweetShop sweetShop2 = container.Resolve<SweetShop>();
@@ -72,9 +79,12 @@ namespace IoCComparison
         public void CanMakeSingletonJellybeanDispenser()
         {
             WindsorContainer container = new WindsorContainer();
-            container.AddComponentLifeStyle<SweetShop>(LifestyleType.Transient);
-            container.AddComponentLifeStyle<SweetVendingMachine>(LifestyleType.Transient);
-            container.AddComponentLifeStyle<IJellybeanDispenser, VanillaJellybeanDispenser>(LifestyleType.Singleton);
+
+            container.Register(
+                Component.For<SweetShop>().LifeStyle.Is(LifestyleType.Transient),
+                Component.For<SweetVendingMachine>().LifeStyle.Is(LifestyleType.Transient),
+                Component.For<IJellybeanDispenser>().ImplementedBy<VanillaJellybeanDispenser>()
+                    .LifeStyle.Is(LifestyleType.Singleton));
 
             SweetShop sweetShop = container.Resolve<SweetShop>();
             SweetShop sweetShop2 = container.Resolve<SweetShop>();
@@ -90,7 +100,7 @@ namespace IoCComparison
         public void CanMakeAniseedRootObject()
         {
             WindsorContainer container = new WindsorContainer();
-            container.AddComponent<SweetShop, AniseedSweetShop>();
+            container.Register(Component.For<SweetShop>().ImplementedBy<AniseedSweetShop>());
 
             SweetShop sweetShop = container.Resolve<SweetShop>();
 
@@ -101,12 +111,12 @@ namespace IoCComparison
         public void CanUseAnyJellybeanDispenser()
         {
             WindsorContainer container = new WindsorContainer();
-            container.AddComponent<SweetShop>();
-            container.AddComponent<SweetVendingMachine>();
             container.Register(
+                Component.For<SweetShop>(),
+                Component.For<SweetVendingMachine>(),
                 Component.For<IJellybeanDispenser>()
-                .ImplementedBy<AnyJellybeanDispenser>()
-                .Parameters(Parameter.ForKey("jellybean").Eq("Lemon")));
+                    .ImplementedBy<AnyJellybeanDispenser>()
+                    .Parameters(Parameter.ForKey("jellybean").Eq("Lemon")));
                 
             SweetShop sweetShop = container.Resolve<SweetShop>();
 
@@ -117,10 +127,10 @@ namespace IoCComparison
         public void CanUseConstructedObject()
         {
             WindsorContainer container = new WindsorContainer();
-            container.AddComponent<SweetShop>();
-            container.AddComponent<SweetVendingMachine>();
-            container.Register(Component.For<IJellybeanDispenser>()
-                .Instance(new AnyJellybeanDispenser(Jellybean.Cocoa)));
+            container.Register(
+                Component.For<SweetShop>(),
+                Component.For<SweetVendingMachine>(),
+                Component.For<IJellybeanDispenser>().Instance(new AnyJellybeanDispenser(Jellybean.Cocoa)));
 
             SweetShop sweetShop = container.Resolve<SweetShop>();
 
@@ -133,10 +143,10 @@ namespace IoCComparison
             WindsorContainer container = new WindsorContainer();
             container.AddFacility<FactorySupportFacility>();
             container.Register(
-                    Component.For<IJellybeanDispenser>()
-                    .UsingFactoryMethod((c, t) => new AnyJellybeanDispenser(Jellybean.Orange)));
-            container.AddComponent<SweetShop>();
-            container.AddComponent<SweetVendingMachine>();
+                Component.For<IJellybeanDispenser>()
+                    .UsingFactoryMethod((c, t) => new AnyJellybeanDispenser(Jellybean.Orange)),
+                Component.For<SweetShop>(),
+                Component.For<SweetVendingMachine>());
 
             SweetShop sweetShop = container.Resolve<SweetShop>();
 
