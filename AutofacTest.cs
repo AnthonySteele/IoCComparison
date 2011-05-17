@@ -1,8 +1,8 @@
-﻿using Autofac;
-using NUnit.Framework;
-
-namespace IoCComparison
+﻿namespace IoCComparison
 {
+    using Autofac;
+    using NUnit.Framework;
+
     [TestFixture]
     public class AutofacTest
     {
