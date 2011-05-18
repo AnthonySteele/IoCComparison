@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
-using StructureMap;
-
-namespace IoCComparison
+﻿namespace IoCComparison
 {
+    using NUnit.Framework;
+    using StructureMap;
+
     [TestFixture]
     public class StructureMapTest
     {

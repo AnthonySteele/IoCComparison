@@ -1,8 +1,8 @@
-﻿using Microsoft.Practices.Unity;
-using NUnit.Framework;
-
-namespace IoCComparison
+﻿namespace IoCComparison
 {
+    using Microsoft.Practices.Unity;
+    using NUnit.Framework;
+
     [TestFixture]
     public class UnityTestClass
     {
@@ -20,7 +20,7 @@ namespace IoCComparison
         }
 
         [Test]
-        public void CanMakeSweetShopWithVanillaJellybeansImplicitRegiastration()
+        public void CanMakeSweetShopWithVanillaJellybeansImplicitRegistration()
         {
             UnityContainer container = new UnityContainer();
             // Unity does not require explicit registrations for SweetShop and SweetVendingMachine

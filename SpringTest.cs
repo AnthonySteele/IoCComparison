@@ -1,9 +1,8 @@
-﻿using Spring.Context.Support;
-using NUnit.Framework;
-
-namespace IoCComparison
+﻿namespace IoCComparison
 {
     using Spring.Context;
+    using Spring.Context.Support;
+    using NUnit.Framework;
 
     /// <summary>
     /// Spring has been frustrating to set up 

@@ -1,8 +1,8 @@
-﻿using System;
-using NUnit.Framework;
-
-namespace IoCComparison
+﻿namespace IoCComparison
 {
+    using System;
+    using NUnit.Framework;
+
     [TestFixture]
     public class NoIoCTest
     {

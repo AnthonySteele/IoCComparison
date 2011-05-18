@@ -1,10 +1,10 @@
-﻿using System;
-using Spring.Context.Support;
-using Spring.Objects.Factory.Config;
-using Spring.Objects.Factory.Support;
-
-namespace IoCComparison
+﻿namespace IoCComparison
 {
+    using System;
+    using Spring.Context.Support;
+    using Spring.Objects.Factory.Config;
+    using Spring.Objects.Factory.Support;
+
     public static class SpringHelper
     {
         public static void RegisterType<T>(this GenericApplicationContext context, string name)

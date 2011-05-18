@@ -1,9 +1,8 @@
-﻿using Ninject;
-using NUnit.Framework;
-
-namespace IoCComparison
+﻿namespace IoCComparison
 {
+    using Ninject;
     using Ninject.Modules;
+    using NUnit.Framework;
 
     /// <summary>
     /// Ninject, like Unity, only requires registrations from types were there is a mapping

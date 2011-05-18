@@ -1,11 +1,10 @@
-﻿using Castle.Core;
-using Castle.Windsor;
-using Castle.MicroKernel.Registration;
-using NUnit.Framework;
-
-namespace IoCComparison
+﻿namespace IoCComparison
 {
+    using Castle.Core;
     using Castle.Facilities.FactorySupport;
+    using Castle.MicroKernel.Registration;
+    using Castle.Windsor;
+    using NUnit.Framework;
 
     [TestFixture]
     public class WindsorTest
