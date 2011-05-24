@@ -1,5 +1,7 @@
 ﻿namespace IoCComparison
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Castle.Core;
     using Castle.Facilities.FactorySupport;
     using Castle.MicroKernel.Registration;
@@ -150,6 +152,20 @@
             SweetShop sweetShop = container.Resolve<SweetShop>();
 
             Assert.AreEqual(Jellybean.Orange, sweetShop.DispenseJellyBean());
+        }
+
+        [Test]
+        public void CanRegisterMultipleDispensers()
+        {
+            WindsorContainer container = new WindsorContainer();
+            container.Register(
+                Component.For<IJellybeanDispenser>().ImplementedBy<VanillaJellybeanDispenser>(),
+                Component.For<IJellybeanDispenser>().ImplementedBy<StrawberryJellybeanDispenser>());
+
+            IEnumerable<IJellybeanDispenser> dispensers = container.ResolveAll<IJellybeanDispenser>();
+
+            Assert.IsNotNull(dispensers);
+            Assert.AreEqual(2, dispensers.Count());
         }
     }
 

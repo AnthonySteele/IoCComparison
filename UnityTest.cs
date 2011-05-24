@@ -1,5 +1,7 @@
 ﻿namespace IoCComparison
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Microsoft.Practices.Unity;
     using NUnit.Framework;
 
@@ -129,6 +131,20 @@
             SweetShop sweetShop = container.Resolve<SweetShop>();
 
             Assert.AreEqual(Jellybean.Orange, sweetShop.DispenseJellyBean());
+        }
+
+        [Test]
+        public void CanRegisterMultipleDispensers()
+        {
+            UnityContainer container = new UnityContainer();
+            // different registrations have different names, otherwise will overwrite
+            container.RegisterType<IJellybeanDispenser, VanillaJellybeanDispenser>("vanilla");
+            container.RegisterType<IJellybeanDispenser, StrawberryJellybeanDispenser>("strawberry");
+
+            IEnumerable<IJellybeanDispenser> dispensers = container.ResolveAll<IJellybeanDispenser>();
+
+            Assert.IsNotNull(dispensers);
+            Assert.AreEqual(2, dispensers.Count());
         }
     }
 }

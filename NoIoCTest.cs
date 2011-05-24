@@ -1,6 +1,9 @@
 ﻿namespace IoCComparison
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     using NUnit.Framework;
 
     [TestFixture]
@@ -79,6 +82,19 @@
             SweetShop sweetShop = new SweetShop(new SweetVendingMachine(factoryFunc()));
 
             Assert.AreEqual(Jellybean.Orange, sweetShop.DispenseJellyBean());
+        }
+
+        [Test]
+        public void CanRegisterMultipleDispensers()
+        {
+            IEnumerable<IJellybeanDispenser> dispensers = new List<IJellybeanDispenser>
+                {
+                    new VanillaJellybeanDispenser(),
+                    new StrawberryJellybeanDispenser()
+                };
+
+            Assert.IsNotNull(dispensers);
+            Assert.AreEqual(2, dispensers.Count());
         }
     }
 }

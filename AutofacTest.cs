@@ -1,5 +1,7 @@
 ﻿namespace IoCComparison
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Autofac;
     using NUnit.Framework;
 
@@ -125,6 +127,21 @@
             SweetShop sweetShop = container.Resolve<SweetShop>();
 
             Assert.AreEqual(Jellybean.Orange, sweetShop.DispenseJellyBean());
+        }
+
+        [Test]
+        public void CanRegisterMultipleDispensers()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterType<VanillaJellybeanDispenser>().As<IJellybeanDispenser>();
+            builder.RegisterType<StrawberryJellybeanDispenser>().As<IJellybeanDispenser>();
+            IContainer container = builder.Build();
+
+            // the Resolve<IEnumerable<>> syntax is the only way in autofac
+            IEnumerable<IJellybeanDispenser> dispensers = container.Resolve<IEnumerable<IJellybeanDispenser>>();
+
+            Assert.IsNotNull(dispensers);
+            Assert.AreEqual(2, dispensers.Count());
         }
     }
 }

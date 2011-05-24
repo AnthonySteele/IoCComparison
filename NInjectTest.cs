@@ -1,5 +1,8 @@
 ﻿namespace IoCComparison
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Ninject;
     using Ninject.Modules;
     using NUnit.Framework;
@@ -62,6 +65,16 @@
         public override void Load()
         {
             Bind<IJellybeanDispenser>().ToMethod(c => new AnyJellybeanDispenser(Jellybean.Orange));
+        }
+    }
+
+
+    public class MultipleDispenserModule : NinjectModule
+    {
+        public override void Load()
+        {
+            Bind<IJellybeanDispenser>().To<VanillaJellybeanDispenser>();
+            Bind<IJellybeanDispenser>().To<StrawberryJellybeanDispenser>();
         }
     }
 
@@ -165,6 +178,17 @@
             SweetShop sweetShop = kernel.Get<SweetShop>();
 
             Assert.AreEqual(Jellybean.Orange, sweetShop.DispenseJellyBean());
+        }
+
+        [Test]
+        public void CanRegisterMultipleDispensers()
+        {
+            IKernel kernel = new StandardKernel(new MultipleDispenserModule());
+
+            IEnumerable<IJellybeanDispenser> dispensers = kernel.GetAll<IJellybeanDispenser>();
+
+            Assert.IsNotNull(dispensers);
+            Assert.AreEqual(2, dispensers.Count());
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace IoCComparison
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using NUnit.Framework;
     using StructureMap;
 
@@ -112,6 +114,21 @@
             SweetShop sweetShop = ObjectFactory.GetInstance<SweetShop>();
 
             Assert.AreEqual(Jellybean.Orange, sweetShop.DispenseJellyBean());
+        }
+
+        [Test]
+        public void CanRegisterMultipleDispensers()
+        {
+            ObjectFactory.Initialize(x => 
+                { 
+                    x.For<IJellybeanDispenser>().Use<VanillaJellybeanDispenser>();
+                    x.For<IJellybeanDispenser>().Use<StrawberryJellybeanDispenser>();
+                });
+
+            IEnumerable<IJellybeanDispenser> dispensers = ObjectFactory.GetAllInstances<IJellybeanDispenser>();
+
+            Assert.IsNotNull(dispensers);
+            Assert.AreEqual(2, dispensers.Count());
         }
     }
 }

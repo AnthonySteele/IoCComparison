@@ -124,5 +124,13 @@
 
             Assert.AreEqual(Jellybean.Orange, sweetShop.DispenseJellyBean());
         }
+
+        [Test]
+        public void CanRegisterMultipleDispensers()
+        {
+
+            Assert.Inconclusive("probably can't do this in Func() - " +
+                "there's no method container.ResolveAll and resolving an IEnumerable<IJellybeanDispenser> doesn't work either");
+        }
     }
 }

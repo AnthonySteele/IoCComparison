@@ -1,4 +1,7 @@
-﻿namespace IoCComparison
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace IoCComparison
 {
     using NUnit.Framework;
     using LightCore;
@@ -174,6 +177,34 @@
             SweetShop sweetShop = container.Resolve<SweetShop>();
 
             Assert.AreEqual(Jellybean.Orange, sweetShop.DispenseJellyBean());
+        }
+
+        [Test]
+        public void CanRegisterMultipleDispensersWithResolveAll()
+        {
+            var builder = new ContainerBuilder();
+            builder.Register<IJellybeanDispenser, VanillaJellybeanDispenser>();
+            builder.Register<IJellybeanDispenser, StrawberryJellybeanDispenser>();
+
+            IContainer container = builder.Build();
+            IEnumerable<IJellybeanDispenser> dispensers = container.ResolveAll<IJellybeanDispenser>();
+
+            Assert.IsNotNull(dispensers);
+            Assert.AreEqual(2, dispensers.Count());
+        }
+
+        [Test]
+        public void CanRegisterMultipleDispensersWithResolveIEnumerable()
+        {
+            var builder = new ContainerBuilder();
+            builder.Register<IJellybeanDispenser, VanillaJellybeanDispenser>();
+            builder.Register<IJellybeanDispenser, StrawberryJellybeanDispenser>();
+
+            IContainer container = builder.Build();
+            IEnumerable<IJellybeanDispenser> dispensers = container.Resolve<IEnumerable<IJellybeanDispenser>>();
+
+            Assert.IsNotNull(dispensers);
+            Assert.AreEqual(2, dispensers.Count());
         }
     }
 }
