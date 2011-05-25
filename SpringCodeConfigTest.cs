@@ -68,17 +68,5 @@ namespace IoCComparison
 
             Assert.AreEqual(Jellybean.Strawberry, sweetShop.DispenseJellyBean());
         }
-
-        /*
-         * 
-         docs: http://www.springframework.net/codeconfig/doc-latest/reference/html/
-         This is a bit step forward for spring, it allows different configs to be used in different tests.
-         The way that it works is a bit like NInject, but with advanced scan-the-app features that we don't need in this demo
-         however it's more verbose and less typesafe than Ninject et al.
-         And it has the problem that it doesn't do the basic de-coupling that is characteristic of IoC tools
-         If a constructor changes (e.g. FooService now needs an IBarRepository) 
-         The change has to be done in places other than the constructor itself.
-         Eliminating that friction is what IoC is all about, and this doesn't do it.
-         * */
     }
 }
