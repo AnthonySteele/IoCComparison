@@ -145,6 +145,7 @@
 
             Assert.IsNotNull(dispensers);
             Assert.AreEqual(2, dispensers.Count());
+			
         }
     }
 }
