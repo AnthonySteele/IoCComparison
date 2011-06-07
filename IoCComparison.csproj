@@ -111,6 +111,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacTest.cs" />
+    <Compile Include="AutoregisterTests\AutofacTest.cs" />
+    <Compile Include="AutoregisterTests\NinjectTest.cs" />
+    <Compile Include="AutoregisterTests\StructureMapTest.cs" />
+    <Compile Include="AutoregisterTests\UnityTest.cs" />
+    <Compile Include="AutoregisterTests\WindsorTest.cs" />
     <Compile Include="Classes\Advanced.cs" />
     <Compile Include="Classes\Classes.cs" />
     <Compile Include="Classes\Definitions.cs" />
@@ -147,6 +152,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="AutoregisteredClasses\AutoregisteredClasses.csproj">
+      <Project>{FE0854F0-ADB2-49DC-9E48-47CDC2337717}</Project>
+      <Name>AutoregisteredClasses</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
