@@ -117,7 +117,7 @@
                 Component.For<SweetVendingMachine>(),
                 Component.For<IJellybeanDispenser>()
                     .ImplementedBy<AnyJellybeanDispenser>()
-                    .Parameters(Parameter.ForKey("jellybean").Eq("Lemon")));
+                    .DependsOn(new {Jellybean = Jellybean.Lemon}));
                 
             SweetShop sweetShop = container.Resolve<SweetShop>();
 
