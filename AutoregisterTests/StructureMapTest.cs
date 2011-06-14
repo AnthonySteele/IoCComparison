@@ -17,9 +17,7 @@
             ObjectFactory.Initialize(x => 
                 x.Scan(y =>
                     {
-                        // hm cludgy. Is there a way to automatically register concrete types as thier interfaces?
-                        y.AddAllTypesOf<ICustomerService>();
-                        y.AddAllTypesOf<IOrderService>();
+                        y.WithDefaultConventions();
                         y.AssemblyContainingType(typeof(BusinessProcess));
                     }));
 
