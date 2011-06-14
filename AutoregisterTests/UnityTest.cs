@@ -17,9 +17,10 @@
         {
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
-                LoadAssemblyFrom("AutoregisteredClasses.dll").
-                Include(t => true,
-                Then.Register().AsAllInterfacesOfType()).
+                Include(t => true, Then.Register().AsAllInterfacesOfType()).
+                ExcludeSystemAssemblies().
+                ExcludeAssemblies(a => a == this.GetType().Assembly).
+                ExcludeAssemblies(a => a == typeof(TestFixtureAttribute).Assembly).
                 ApplyAutoRegistration();
 
             BusinessProcess bp = container.Resolve<BusinessProcess>();
@@ -32,7 +33,10 @@
         {
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
-                LoadAssemblyFrom("AutoregisteredClasses.dll").
+                Include(t => true, Then.Register().AsAllInterfacesOfType()).
+                ExcludeSystemAssemblies().
+                ExcludeAssemblies(a => a == this.GetType().Assembly).
+                ExcludeAssemblies(a => a == typeof(TestFixtureAttribute).Assembly).
                 Include(If.Implements<IValidator>, Then.Register().As<IValidator>().WithTypeName()). 
                 ApplyAutoRegistration();
 
