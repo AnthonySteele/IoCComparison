@@ -1,21 +1,14 @@
 ﻿
+using Ninject.Extensions.Conventions;
+
 namespace IoCComparison.AutoregisterTests
 {
-    using System.Collections.Generic;
     using System.Linq;
     using AutoregisteredClasses.Interfaces;
     using AutoregisteredClasses.Services;
     using Ninject;
-    using Ninject.Modules;
     using NUnit.Framework;
 
-    public class AutoRegisterModule : NinjectModule
-    {
-        public override void Load()
-        {
-            
-        }
-    }
 
     /// <summary>
     /// Need https://github.com/ninject/ninject.extensions.conventions
@@ -26,7 +19,12 @@ namespace IoCComparison.AutoregisterTests
         [Test]
         public void CanMakeBusinessProcess()
         {
-            IKernel kernel = new StandardKernel(new AutoRegisterModule());
+            IKernel kernel = new StandardKernel();
+            kernel.Scan(scanner =>
+                {
+                    scanner.From(typeof(BusinessProcess).Assembly);
+                    scanner.BindWith<DefaultBindingGenerator>();
+                });
 
             BusinessProcess bp = kernel.Get<BusinessProcess>();
 
@@ -36,8 +34,13 @@ namespace IoCComparison.AutoregisterTests
         [Test]
         public void CanGetAllValidators()
         {
-            IKernel kernel = new StandardKernel(new AutoRegisterModule());
-
+            IKernel kernel = new StandardKernel();
+            kernel.Scan(scanner =>
+            {
+                scanner.From(typeof(IValidator).Assembly);
+                scanner.WhereTypeInheritsFrom<IValidator>();
+                scanner.BindWith<NinjectGenerateAllInterfaceBindings>();
+            });
             var validators = kernel.GetAll<IValidator>();
 
             Assert.IsNotNull(validators);

@@ -55,11 +55,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\Autofac\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.Core, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\Castle-Windsor-2.5.3\dotNet40\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Windsor, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.Windsor, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\Castle-Windsor-2.5.3\dotNet40\Castle.Windsor.dll</HintPath>
     </Reference>
@@ -78,6 +78,9 @@
     <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\NInject\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions">
+      <HintPath>Lib\NInject\Ninject.Extensions.Conventions-2.2.0.0-release-net-4.0\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Lib\nunit.framework.dll</HintPath>
@@ -108,10 +111,14 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Unity.AutoRegistration">
+      <HintPath>Lib\Unity\UnityAutoRegistration.1.0-bin\Unity.AutoRegistration.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacTest.cs" />
     <Compile Include="AutoregisterTests\AutofacTest.cs" />
+    <Compile Include="AutoregisterTests\NinjectGenerateAllInterfaceBindings.cs" />
     <Compile Include="AutoregisterTests\NinjectTest.cs" />
     <Compile Include="AutoregisterTests\StructureMapTest.cs" />
     <Compile Include="AutoregisterTests\UnityTest.cs" />
