@@ -1,4 +1,6 @@
-﻿namespace IoCComparison.AutoregisterTests
+﻿using System.Reflection;
+
+namespace IoCComparison.AutoregisterTests
 {
     using System;
     using System.Linq;
@@ -18,13 +20,42 @@
             return type.Assembly == typeof(BusinessProcess).Assembly;
         }
 
+        private static bool IsLibraryAssembly(Assembly assembly)
+        {
+            return
+                // NUnit is a 3rd party library
+                (assembly == (typeof(TestFixtureAttribute).Assembly)) ||
+                // Unity is a 3rd party library
+                (assembly == (typeof(UnityContainer).Assembly));
+        }
+
         [Test]
-        public void CanMakeBusinessProcess()
+        public void CanMakeBusinessProcessWithAssemblyInclusion()
         {
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
+                // include just the target assembly
                 Include(t => InTargetAssembly(t), 
                 Then.Register().AsAllInterfacesOfType()).
+                ApplyAutoRegistration();
+
+            BusinessProcess bp = container.Resolve<BusinessProcess>();
+
+            Assert.IsNotNull(bp);
+        }
+
+        [Test]
+        public void CanMakeBusinessProcessWithAssemblyExclusion()
+        {
+            UnityContainer container = new UnityContainer();
+            container.ConfigureAutoRegistration().
+                Include(t => true,
+                Then.Register().AsAllInterfacesOfType()).
+
+                // exclude system and library assemblies
+                ExcludeSystemAssemblies().
+                ExcludeAssemblies(a => IsLibraryAssembly(a)).
+
                 ApplyAutoRegistration();
 
             BusinessProcess bp = container.Resolve<BusinessProcess>();
