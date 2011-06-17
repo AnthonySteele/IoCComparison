@@ -12,14 +12,18 @@ namespace IoCComparison.AutoregisterTests
     [TestFixture]
     public class AutofacTest
     {
+        private static bool HasNoInterfaces(Type type)
+        {
+            return type.GetInterfaces().Length == 0;
+        }
+
         [Test]
-        public void CanMakeBusinessProcess()
+        public void CanMakeBusinessProcessTwoScans()
         {
             ContainerBuilder builder = new ContainerBuilder();
 
             // go through the target assembly twice 
             // - once for object without interfaces, once for those with interfaces
-            // there's probably a better way to do this?
             builder.RegisterAssemblyTypes(typeof(BusinessProcess).Assembly).Where(t => HasNoInterfaces(t));
             builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly).AsImplementedInterfaces();
             IContainer container = builder.Build();
@@ -29,9 +33,20 @@ namespace IoCComparison.AutoregisterTests
             Assert.IsNotNull(bp);
         }
 
-        private static bool HasNoInterfaces(Type type)
+        [Test]
+        public void CanMakeBusinessProcessOneScan()
         {
-            return type.GetInterfaces().Length == 0;
+            ContainerBuilder builder = new ContainerBuilder();
+
+            // instead of redundant scans, this version has redundant registrations
+            // e.g. CustomerService is registered as both CustomerService and ICustomerService,
+            // even though we only care about the latter
+            builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly).AsImplementedInterfaces().AsSelf();
+            IContainer container = builder.Build();
+            
+            BusinessProcess bp = container.Resolve<BusinessProcess>();
+
+            Assert.IsNotNull(bp);
         }
 
         [Test]
