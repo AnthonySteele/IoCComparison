@@ -7,11 +7,21 @@ namespace IoCComparison.AutoregisterTests.NinjectExtensions
 {
     /// <summary>
     /// I think that the convention needed for registering services is
+    /// 
     /// - Bind concrete classes (and open generics) to thier interfaces
-    ///  -- except when that interface is in the system namespace. 
+    ///  -- except when that interface is in the System namespace. 
     ///   i.e. if FooService implements IDisposable or IList&ltT&gt, we don't want to bind it to that
+    /// 
+    /// - There is no need to test that interface names map to class names. 
+    ///   The usual case is that FooService implements IFooService, but that falls down where there are multiple implementations,
+    ///   e.g. the interface IValidator is implemented by NameValidator, OrderValidator etc.
+    ///   The "no system interfaces" rule is closer to what's actually desired.
+    /// 
     /// - Allow the consumer to specify a where lambda to filter them. 
     ///   -- Include filters are easier to understand than exclude filters - no need to invert the test
+    /// 
+    ///  - This code is adapted from Ninject.Extensions.Conventions.RegexBindingGenerator 
+    ///  at https://github.com/ninject/ninject.extensions.conventions/blob/master/src/Ninject.Extensions.Conventions/RegexBindingGenerator.cs
     /// </summary>
     public class NinjectServiceToInterfaceBinder : IBindingGenerator
     {
