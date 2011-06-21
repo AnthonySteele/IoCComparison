@@ -13,7 +13,7 @@
         {
             IDependencyResolver container = new InternalDependencyResolver();
             container.AddDependency<SweetShop>();
-            //container.AddDependency<SweetVendingMachine>();
+            container.AddDependency<SweetVendingMachine>();
             container.AddDependency<IJellybeanDispenser, VanillaJellybeanDispenser>();
 
             SweetShop sweetShop = container.Resolve<SweetShop>();
