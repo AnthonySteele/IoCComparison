@@ -12,21 +12,6 @@
         public void CanMakeSweetShopWithVanillaJellybeans()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<VanillaJellybeanDispenser>().As<IJellybeanDispenser>();
-            builder.RegisterType<SweetVendingMachine>().As<SweetVendingMachine>();
-            builder.RegisterType<SweetShop>().As<SweetShop>();
-            IContainer container = builder.Build();
-
-            SweetShop sweetShop = container.Resolve<SweetShop>();
-
-            Assert.AreEqual(Jellybean.Vanilla, sweetShop.DispenseJellyBean());
-        }
-
-        [Test]
-        public void CanMakeSweetShopWithVanillaJellybeansWithSimplerSyntax()
-        {
-            ContainerBuilder builder = new ContainerBuilder();
-            // use "AsImplementedInterfaces" and "AsSelf", a simpler registration syntax
             builder.RegisterType<VanillaJellybeanDispenser>().AsImplementedInterfaces();
             builder.RegisterType<SweetVendingMachine>().AsSelf();
             builder.RegisterType<SweetShop>().AsSelf();
@@ -37,6 +22,21 @@
             Assert.AreEqual(Jellybean.Vanilla, sweetShop.DispenseJellyBean());
         }
 
+        [Test]
+        public void CanMakeSweetShopWithVanillaJellybeansAlternateSyntax()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            // use the more precise but verbose registration syntax of builder.RegisterType<T>().As<U>();
+            builder.RegisterType<VanillaJellybeanDispenser>().As<IJellybeanDispenser>();
+            builder.RegisterType<SweetVendingMachine>().As<SweetVendingMachine>();
+            builder.RegisterType<SweetShop>().As<SweetShop>();
+            IContainer container = builder.Build();
+
+            SweetShop sweetShop = container.Resolve<SweetShop>();
+
+            Assert.AreEqual(Jellybean.Vanilla, sweetShop.DispenseJellyBean());
+        }
+        
         [Test]
         public void CanUpdateContainer()
         {
@@ -59,9 +59,9 @@
         public void CanMakeSweetShopWithStrawberryJellybeans()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<StrawberryJellybeanDispenser>().As<IJellybeanDispenser>();
-            builder.RegisterType<SweetVendingMachine>().As<SweetVendingMachine>();
-            builder.RegisterType<SweetShop>().As<SweetShop>();
+            builder.RegisterType<StrawberryJellybeanDispenser>().AsImplementedInterfaces();
+            builder.RegisterType<SweetVendingMachine>().AsSelf();
+            builder.RegisterType<SweetShop>().AsSelf();
             IContainer container = builder.Build();
 
 
@@ -74,9 +74,9 @@
         public void JellybeanDispenserHasNewInstanceEachTime()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<VanillaJellybeanDispenser>().As<IJellybeanDispenser>();
-            builder.RegisterType<SweetVendingMachine>().As<SweetVendingMachine>();
-            builder.RegisterType<SweetShop>().As<SweetShop>();
+            builder.RegisterType<VanillaJellybeanDispenser>().AsImplementedInterfaces();
+            builder.RegisterType<SweetVendingMachine>().AsSelf();
+            builder.RegisterType<SweetShop>().AsSelf();
             IContainer container = builder.Build();
 
             SweetShop sweetShop = container.Resolve<SweetShop>();
@@ -91,9 +91,9 @@
         public void CanMakeSingletonJellybeanDispenser()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<VanillaJellybeanDispenser>().As<IJellybeanDispenser>().SingleInstance();
-            builder.RegisterType<SweetVendingMachine>().As<SweetVendingMachine>();
-            builder.RegisterType<SweetShop>().As<SweetShop>();
+            builder.RegisterType<VanillaJellybeanDispenser>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<SweetVendingMachine>().AsSelf();
+            builder.RegisterType<SweetShop>().AsSelf();
             IContainer container = builder.Build();
 
             SweetShop sweetShop = container.Resolve<SweetShop>();
@@ -122,11 +122,11 @@
         public void CanUseAnyJellybeanDispenser()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<AnyJellybeanDispenser>().As<IJellybeanDispenser>()
+            builder.RegisterType<AnyJellybeanDispenser>().AsImplementedInterfaces()
                 .WithParameter("jellybean", Jellybean.Lemon);
 
-            builder.RegisterType<SweetVendingMachine>().As<SweetVendingMachine>();
-            builder.RegisterType<SweetShop>().As<SweetShop>();
+            builder.RegisterType<SweetVendingMachine>().AsSelf();
+            builder.RegisterType<SweetShop>().AsSelf();
             IContainer container = builder.Build();
 
             SweetShop sweetShop = container.Resolve<SweetShop>();
@@ -138,9 +138,9 @@
         public void CanUseConstructedObject()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterInstance(new AnyJellybeanDispenser(Jellybean.Cocoa)).As<IJellybeanDispenser>().SingleInstance();
-            builder.RegisterType<SweetVendingMachine>().As<SweetVendingMachine>();
-            builder.RegisterType<SweetShop>().As<SweetShop>();
+            builder.RegisterInstance(new AnyJellybeanDispenser(Jellybean.Cocoa)).AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<SweetVendingMachine>().AsSelf();
+            builder.RegisterType<SweetShop>().AsSelf();
 
             IContainer container = builder.Build();
             SweetShop sweetShop = container.Resolve<SweetShop>();
@@ -152,9 +152,9 @@
         public void CanUseObjectFactory()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.Register(c => new AnyJellybeanDispenser(Jellybean.Orange)).As<IJellybeanDispenser>();
-            builder.RegisterType<SweetVendingMachine>().As<SweetVendingMachine>();
-            builder.RegisterType<SweetShop>().As<SweetShop>();
+            builder.Register(c => new AnyJellybeanDispenser(Jellybean.Orange)).AsImplementedInterfaces();
+            builder.RegisterType<SweetVendingMachine>().AsSelf();
+            builder.RegisterType<SweetShop>().AsSelf();
 
             IContainer container = builder.Build();
             SweetShop sweetShop = container.Resolve<SweetShop>();
@@ -166,8 +166,8 @@
         public void CanRegisterMultipleDispensers()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<VanillaJellybeanDispenser>().As<IJellybeanDispenser>();
-            builder.RegisterType<StrawberryJellybeanDispenser>().As<IJellybeanDispenser>();
+            builder.RegisterType<VanillaJellybeanDispenser>().AsImplementedInterfaces();
+            builder.RegisterType<StrawberryJellybeanDispenser>().AsImplementedInterfaces();
             IContainer container = builder.Build();
 
             // the Resolve<IEnumerable<>> syntax is the only way in autofac
