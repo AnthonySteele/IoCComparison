@@ -23,6 +23,39 @@
         }
 
         [Test]
+        public void CanMakeSweetShopWithVanillaJellybeansWithSimplerSyntax()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            // use "AsImplementedInterfaces" and "AsSelf", a simpler registration syntax
+            builder.RegisterType<VanillaJellybeanDispenser>().AsImplementedInterfaces();
+            builder.RegisterType<SweetVendingMachine>().AsSelf();
+            builder.RegisterType<SweetShop>().AsSelf();
+            IContainer container = builder.Build();
+
+            SweetShop sweetShop = container.Resolve<SweetShop>();
+
+            Assert.AreEqual(Jellybean.Vanilla, sweetShop.DispenseJellyBean());
+        }
+
+        [Test]
+        public void CanUpdateContainer()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterType<VanillaJellybeanDispenser>().AsImplementedInterfaces();
+            builder.RegisterType<SweetVendingMachine>().AsSelf();
+            IContainer container = builder.Build();
+
+            // the container is not actually immutable, you can update it like this:
+            ContainerBuilder updater = new ContainerBuilder();
+            updater.RegisterType<SweetShop>().AsSelf();
+            updater.Update(container);
+
+            SweetShop sweetShop = container.Resolve<SweetShop>();
+
+            Assert.AreEqual(Jellybean.Vanilla, sweetShop.DispenseJellyBean());
+        }
+
+        [Test]
         public void CanMakeSweetShopWithStrawberryJellybeans()
         {
             ContainerBuilder builder = new ContainerBuilder();
