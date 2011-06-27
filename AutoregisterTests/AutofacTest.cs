@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoregisteredClasses.Validators;
 
 namespace IoCComparison.AutoregisterTests
 {
@@ -50,6 +51,33 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
+        public void CanMakeSingletonBusinessProcess()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly).AsImplementedInterfaces().AsSelf()
+                .InstancePerLifetimeScope();
+            IContainer container = builder.Build();
+
+            BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
+            BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
+
+            Assert.AreEqual(businessProcess1, businessProcess2);
+        }
+
+        [Test]
+        public void CanMakeTransientBusinessProcess()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly).AsImplementedInterfaces().AsSelf();
+            IContainer container = builder.Build();
+
+            BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
+            BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
+
+            Assert.AreNotEqual(businessProcess1, businessProcess2);
+        }
+
+        [Test]
         public void CanGetAllValidators()
         {
             ContainerBuilder builder = new ContainerBuilder();
@@ -60,6 +88,22 @@ namespace IoCComparison.AutoregisterTests
 
             Assert.IsNotNull(validators);
             Assert.AreEqual(3, validators.Count());
+        }
+
+        [Test]
+        public void CanFilterOutRegistrations()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterAssemblyTypes(typeof(IValidator).Assembly)
+                .Where(t => t != typeof(FailValidator))
+                .AsImplementedInterfaces();
+            IContainer container = builder.Build();
+
+            // excluding one of the validators should give 2 of them
+            var validators = container.Resolve<IEnumerable<IValidator>>();
+
+            Assert.IsNotNull(validators);
+            Assert.AreEqual(2, validators.Count());
         }
     }
 }

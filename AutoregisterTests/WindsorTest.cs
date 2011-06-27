@@ -1,12 +1,9 @@
-﻿using AutoregisteredClasses.Interfaces;
-using AutoregisteredClasses.Services;
-
-namespace IoCComparison.AutoregisterTests
+﻿namespace IoCComparison.AutoregisterTests
 {
-    using System.Collections.Generic;
+    using AutoregisteredClasses.Interfaces;
+    using AutoregisteredClasses.Services;
+    using AutoregisteredClasses.Validators;
     using System.Linq;
-    using Castle.Core;
-    using Castle.Facilities.FactorySupport;
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
     using NUnit.Framework;
@@ -24,9 +21,36 @@ namespace IoCComparison.AutoregisterTests
             container.Register(AllTypes.FromAssembly(typeof(BusinessProcess).Assembly).Pick()
                 .WithService.DefaultInterface());
 
-            BusinessProcess bp = container.Resolve<BusinessProcess>();
+            BusinessProcess businessProcess = container.Resolve<BusinessProcess>();
 
-            Assert.IsNotNull(bp);
+            Assert.IsNotNull(businessProcess);
+        }
+
+        [Test]
+        public void CanMakeSingletonBusinessProcess()
+        {
+            WindsorContainer container = new WindsorContainer();
+            container.Register(AllTypes.FromAssembly(typeof(BusinessProcess).Assembly).Pick()
+                .WithService.DefaultInterface());
+
+            BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
+            BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
+
+            Assert.AreEqual(businessProcess1, businessProcess2);
+        }
+
+        [Test]
+        public void CanMakeTransientBusinessProcess()
+        {
+            WindsorContainer container = new WindsorContainer();
+            container.Register(AllTypes.FromAssembly(typeof(BusinessProcess).Assembly).Pick()
+                .Configure(component => component.LifeStyle.Transient)
+                .WithService.DefaultInterface());
+
+            BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
+            BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
+
+            Assert.AreNotEqual(businessProcess1, businessProcess2);
         }
 
         [Test]
@@ -40,6 +64,21 @@ namespace IoCComparison.AutoregisterTests
 
             Assert.IsNotNull(validators);
             Assert.AreEqual(3, validators.Count());
+        }
+
+        [Test]
+        public void CanFilterOutRegistrations()
+        {
+            WindsorContainer container = new WindsorContainer();
+            container.Register(AllTypes.FromAssembly(typeof(IValidator).Assembly)
+                .Where(t => t != typeof(FailValidator))
+                .WithService.DefaultInterface());
+
+            // excluding one of the validators should give 2 of them
+            var validators = container.ResolveAll<IValidator>();
+
+            Assert.IsNotNull(validators);
+            Assert.AreEqual(2, validators.Count());
         }
     }
 }
