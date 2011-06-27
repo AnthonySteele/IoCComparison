@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using AutoregisteredClasses.Validators;
 
 namespace IoCComparison.AutoregisterTests
 {
@@ -64,6 +65,49 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
+        public void CanMakeSingletonBusinessProcess()
+        {
+            UnityContainer container = new UnityContainer();
+            container.ConfigureAutoRegistration().
+                Include(t => true,
+                Then.Register().AsAllInterfacesOfType()).
+
+                // exclude system and library assemblies
+                ExcludeSystemAssemblies().
+                ExcludeAssemblies(a => IsLibraryAssembly(a)).
+
+                ApplyAutoRegistration();
+
+            // hm, can this be done in the scan?
+            container.RegisterType<BusinessProcess>(new ContainerControlledLifetimeManager());
+
+            BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
+            BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
+
+            Assert.AreEqual(businessProcess1, businessProcess2);
+        }
+
+        [Test]
+        public void CanMakeTransientBusinessProcess()
+        {
+            UnityContainer container = new UnityContainer();
+            container.ConfigureAutoRegistration().
+                Include(t => true,
+                Then.Register().AsAllInterfacesOfType()).
+
+                // exclude system and library assemblies
+                ExcludeSystemAssemblies().
+                ExcludeAssemblies(a => IsLibraryAssembly(a)).
+
+                ApplyAutoRegistration();
+
+            BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
+            BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
+
+            Assert.AreNotEqual(businessProcess1, businessProcess2);
+        }
+
+        [Test]
         public void CanGetAllValidators()
         {
             UnityContainer container = new UnityContainer();
@@ -77,6 +121,25 @@ namespace IoCComparison.AutoregisterTests
 
             Assert.IsNotNull(validators);
             Assert.AreEqual(3, validators.Count());
+        }
+
+        [Test]
+        public void CanFilterOutRegistrations()
+        {
+            UnityContainer container = new UnityContainer();
+            container.ConfigureAutoRegistration().
+                Include(t => InTargetAssembly(t),
+                Then.Register().AsAllInterfacesOfType()).
+                Exclude(If.Is<FailValidator>).
+                Include(If.Implements<IValidator>, Then.Register().As<IValidator>().WithTypeName()).
+                ApplyAutoRegistration();
+
+
+            // excluding the FailValidator should leave 2 of them
+            var validators = container.ResolveAll<IValidator>();
+
+            Assert.IsNotNull(validators);
+            Assert.AreEqual(2, validators.Count());
         }
     }
 }
