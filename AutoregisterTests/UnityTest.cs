@@ -27,7 +27,10 @@ namespace IoCComparison.AutoregisterTests
                 // NUnit is a 3rd party library
                 (assembly == (typeof(TestFixtureAttribute).Assembly)) ||
                 // Unity is a 3rd party library
-                (assembly == (typeof(UnityContainer).Assembly));
+                (assembly == (typeof(UnityContainer).Assembly)) ||
+                // Spring
+                assembly.FullName.StartsWith("Spring") ||
+                assembly.FullName.StartsWith("Microsoft");
         }
 
         [Test]
@@ -126,6 +129,9 @@ namespace IoCComparison.AutoregisterTests
         [Test]
         public void CanFilterOutRegistrations()
         {
+            try
+            {
+
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
                 Include(t => InTargetAssembly(t),
@@ -140,6 +146,14 @@ namespace IoCComparison.AutoregisterTests
 
             Assert.IsNotNull(validators);
             Assert.AreEqual(2, validators.Count());
+
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+
+                throw ex;
+            }
+
         }
     }
 }
