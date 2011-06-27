@@ -74,7 +74,7 @@
                 .Where(t => t != typeof(FailValidator))
                 .WithService.DefaultInterface());
 
-            // excluding one of the validators should give 2 of them
+            // excluding the FailValidator should leave 2 of them
             var validators = container.ResolveAll<IValidator>();
 
             Assert.IsNotNull(validators);

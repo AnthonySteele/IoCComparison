@@ -1,4 +1,6 @@
-﻿namespace IoCComparison.AutoregisterTests
+﻿using AutoregisteredClasses.Validators;
+
+namespace IoCComparison.AutoregisterTests
 {
     using System.Linq;
     using AutoregisteredClasses.Interfaces;
@@ -45,6 +47,40 @@
         }
 
         [Test]
+        public void CanMakeSingletonBusinessProcess()
+        {
+            IKernel kernel = new StandardKernel();
+            kernel.Scan(scanner =>
+            {
+                scanner.From(typeof(BusinessProcess).Assembly);
+                scanner.BindWith<NinjectServiceToInterfaceBinder>();
+                scanner.InSingletonScope();
+            });
+
+            BusinessProcess businessProcess1 = kernel.Get<BusinessProcess>();
+            BusinessProcess businessProcess2 = kernel.Get<BusinessProcess>();
+
+            Assert.AreEqual(businessProcess1, businessProcess2);
+        }
+
+        [Test]
+        public void CanMakeTransientBusinessProcess()
+        {
+            IKernel kernel = new StandardKernel();
+            kernel.Scan(scanner =>
+            {
+                scanner.From(typeof(BusinessProcess).Assembly);
+                scanner.BindWith<NinjectServiceToInterfaceBinder>();
+                scanner.InTransientScope();
+            });
+
+            BusinessProcess businessProcess1 = kernel.Get<BusinessProcess>();
+            BusinessProcess businessProcess2 = kernel.Get<BusinessProcess>();
+
+            Assert.AreNotEqual(businessProcess1, businessProcess2);
+        }
+
+        [Test]
         public void CanGetAllValidators()
         {
             IKernel kernel = new StandardKernel();
@@ -58,6 +94,24 @@
 
             Assert.IsNotNull(validators);
             Assert.AreEqual(3, validators.Count());
+        }
+
+        [Test]
+        public void CanFilterOutRegistrations()
+        {
+            IKernel kernel = new StandardKernel();
+            kernel.Scan(scanner =>
+            {
+                scanner.From(typeof(IValidator).Assembly);
+                scanner.WhereTypeInheritsFrom<IValidator>();
+                // excluding the FailValidator should leave 2 of them
+                scanner.Where(t => t != typeof(FailValidator));
+                scanner.BindWith<NinjectServiceToInterfaceBinder>();
+            });
+            var validators = kernel.GetAll<IValidator>();
+
+            Assert.IsNotNull(validators);
+            Assert.AreEqual(2, validators.Count());
         }
 
     }

@@ -17,26 +17,11 @@ namespace IoCComparison.AutoregisterTests.NinjectExtensions
     ///   e.g. the interface IValidator is implemented by NameValidator, OrderValidator etc.
     ///   The "no system interfaces" rule is closer to what's actually desired.
     /// 
-    /// - Allow the consumer to specify a where lambda to filter them. 
-    ///   -- Include filters are easier to understand than exclude filters - no need to invert the test
-    /// 
     ///  - This code is adapted from Ninject.Extensions.Conventions.RegexBindingGenerator 
     ///  at https://github.com/ninject/ninject.extensions.conventions/blob/master/src/Ninject.Extensions.Conventions/RegexBindingGenerator.cs
     /// </summary>
     public class NinjectServiceToInterfaceBinder : IBindingGenerator
     {
-        private readonly Func<Type, bool> whereFilter;
-
-        public NinjectServiceToInterfaceBinder()
-        {
-            whereFilter = t => true;
-        }
-
-        public NinjectServiceToInterfaceBinder(Func<Type, bool> whereFilter)
-        {
-            this.whereFilter = whereFilter;
-        }
-
         public void Process(Type type, Func<IContext, object> scopeCallback, IKernel kernel)
         {
             if (type.IsInterface || type.IsAbstract)
@@ -46,12 +31,20 @@ namespace IoCComparison.AutoregisterTests.NinjectExtensions
 
             Type[] interfaceTypes = type.GetInterfaces();
 
-            foreach (Type interfaceType in interfaceTypes)
+            if (interfaceTypes.Length != 0)
             {
-                if (! IsSystemType(interfaceType) && whereFilter(interfaceType))
+                foreach (Type interfaceType in interfaceTypes)
                 {
-                    kernel.Bind(interfaceType).To(type).InScope(scopeCallback);
+                    if (!IsSystemType(interfaceType))
+                    {
+                        kernel.Bind(interfaceType).To(type).InScope(scopeCallback);
+                    }
                 }
+            }
+            else
+            {
+                // if the type has no interfaces - bind to self
+                kernel.Bind(type).To(type).InScope(scopeCallback);
             }
         }
 

@@ -99,7 +99,7 @@ namespace IoCComparison.AutoregisterTests
                 .AsImplementedInterfaces();
             IContainer container = builder.Build();
 
-            // excluding one of the validators should give 2 of them
+            // excluding the FailValidator should leave 2 of them
             var validators = container.Resolve<IEnumerable<IValidator>>();
 
             Assert.IsNotNull(validators);
