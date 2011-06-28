@@ -1,6 +1,7 @@
-﻿namespace IoCComparison
+﻿namespace SpringTests
 {
     using System;
+    using IoCComparison.Classes;
     using Spring.Context;
     using Spring.Context.Support;
     using Spring.Objects.Factory.Support;

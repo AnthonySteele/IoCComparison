@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace IoCComparison
 {
+    using IoCComparison.Classes;
     using NUnit.Framework;
     using LightCore;
     using LightCore.Lifecycle;

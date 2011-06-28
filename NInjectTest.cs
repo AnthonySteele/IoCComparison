@@ -1,5 +1,6 @@
 ﻿namespace IoCComparison
 {
+    using IoCComparison.Classes;
     using System.Collections.Generic;
     using System.Linq;
 

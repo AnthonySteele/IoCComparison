@@ -1,5 +1,6 @@
 ﻿namespace IoCComparison
 {
+    using IoCComparison.Classes;
     using NUnit.Framework;
     using Funq;
 

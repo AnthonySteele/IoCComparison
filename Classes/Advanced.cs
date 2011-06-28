@@ -1,4 +1,4 @@
-﻿namespace IoCComparison
+﻿namespace IoCComparison.Classes
 {
     /// <summary>
     /// This root object has no contained objects

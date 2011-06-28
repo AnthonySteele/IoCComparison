@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FE0854F0-ADB2-49DC-9E48-47CDC2337717}</ProjectGuid>
+    <ProjectGuid>{0345F9AF-1561-45C8-89FE-755133C865BB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoregisteredClasses</RootNamespace>
-    <AssemblyName>AutoregisteredClasses</AssemblyName>
+    <RootNamespace>IoCComparison.Classes</RootNamespace>
+    <AssemblyName>IoCComparison.Classes</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,16 +36,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ICustomerService.cs" />
-    <Compile Include="Interfaces\IValidator.cs" />
-    <Compile Include="Interfaces\IOrderService.cs" />
+    <Compile Include="Advanced.cs" />
+    <Compile Include="Classes.cs" />
+    <Compile Include="Definitions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BusinessProcess.cs" />
-    <Compile Include="Services\CustomerService.cs" />
-    <Compile Include="Services\OrderService.cs" />
-    <Compile Include="Validators\FailValidator.cs" />
-    <Compile Include="Validators\NotNullValidator.cs" />
-    <Compile Include="Validators\SuccessValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

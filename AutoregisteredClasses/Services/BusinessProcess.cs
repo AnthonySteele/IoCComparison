@@ -12,5 +12,15 @@
             this.customerService = customerService;
             this.orderService = orderService;
         }
+
+        public IOrderService OrderService
+        {
+            get { return this.orderService; }
+        }
+
+        public ICustomerService CustomerService
+        {
+            get { return this.customerService; }
+        }
     }
 }

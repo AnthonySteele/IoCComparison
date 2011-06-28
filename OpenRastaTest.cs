@@ -1,9 +1,11 @@
 ﻿namespace IoCComparison
 {
-    using NUnit.Framework;
-    using OpenRasta.DI;
     using System.Collections.Generic;
     using System.Linq;
+
+    using NUnit.Framework;
+    using OpenRasta.DI;
+    using IoCComparison.Classes;
 
     [TestFixture]
     public class OpenRastaTest

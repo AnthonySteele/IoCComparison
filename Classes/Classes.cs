@@ -1,4 +1,4 @@
-﻿namespace IoCComparison
+﻿namespace IoCComparison.Classes
 {
     public class VanillaJellybeanDispenser : IJellybeanDispenser
     {

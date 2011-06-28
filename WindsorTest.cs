@@ -6,6 +6,7 @@
     using Castle.Facilities.FactorySupport;
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
+    using IoCComparison.Classes;
     using NUnit.Framework;
 
     [TestFixture]
