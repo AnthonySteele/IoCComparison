@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCComparison", "IoCComparison.csproj", "{6CF424CC-227C-4C56-91E4-672F097A2991}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoregisteredClasses", "AutoregisteredClasses\AutoregisteredClasses.csproj", "{FE0854F0-ADB2-49DC-9E48-47CDC2337717}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpringTests", "SpringTests\SpringTests.csproj", "{9CB33485-05E0-45F3-9925-B6A38AA2EFDD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classes", "Classes\Classes.csproj", "{0345F9AF-1561-45C8-89FE-755133C865BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{6CF424CC-227C-4C56-91E4-672F097A2991}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6CF424CC-227C-4C56-91E4-672F097A2991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CF424CC-227C-4C56-91E4-672F097A2991}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CF424CC-227C-4C56-91E4-672F097A2991}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CF424CC-227C-4C56-91E4-672F097A2991}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FE0854F0-ADB2-49DC-9E48-47CDC2337717}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FE0854F0-ADB2-49DC-9E48-47CDC2337717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE0854F0-ADB2-49DC-9E48-47CDC2337717}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,6 +27,10 @@ Global
 		{0345F9AF-1561-45C8-89FE-755133C865BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0345F9AF-1561-45C8-89FE-755133C865BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0345F9AF-1561-45C8-89FE-755133C865BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CF424CC-227C-4C56-91E4-672F097A2991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CF424CC-227C-4C56-91E4-672F097A2991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CF424CC-227C-4C56-91E4-672F097A2991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CF424CC-227C-4C56-91E4-672F097A2991}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
