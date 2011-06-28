@@ -60,7 +60,7 @@ namespace IoCComparison.AutoregisterTests
             BusinessProcess businessProcess1 = kernel.Get<BusinessProcess>();
             BusinessProcess businessProcess2 = kernel.Get<BusinessProcess>();
 
-            Assert.AreEqual(businessProcess1, businessProcess2);
+            Assert.AreSame(businessProcess1, businessProcess2);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace IoCComparison.AutoregisterTests
             BusinessProcess businessProcess1 = kernel.Get<BusinessProcess>();
             BusinessProcess businessProcess2 = kernel.Get<BusinessProcess>();
 
-            Assert.AreNotEqual(businessProcess1, businessProcess2);
+            Assert.AreNotSame(businessProcess1, businessProcess2);
         }
 
         [Test]
