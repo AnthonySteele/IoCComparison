@@ -8,9 +8,6 @@
     using Castle.Windsor;
     using NUnit.Framework;
 
-    /// <summary>
-    /// http://mikehadlow.blogspot.com/2010/01/10-advanced-windsor-tricks-2-auto.html
-    /// </summary>
     [TestFixture]
     public class WindsorTest
     {
@@ -36,7 +33,7 @@
             BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
             BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
 
-            Assert.AreEqual(businessProcess1, businessProcess2);
+            Assert.AreSame(businessProcess1, businessProcess2);
         }
 
         [Test]
@@ -50,7 +47,25 @@
             BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
             BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
 
-            Assert.AreNotEqual(businessProcess1, businessProcess2);
+            Assert.AreNotSame(businessProcess1, businessProcess2);
+        }
+
+        [Test]
+        public void CanMakeTransientBusinessProcessWithSingletonDependencies()
+        {
+            WindsorContainer container = new WindsorContainer();
+            container.Register(AllTypes.FromAssembly(typeof(BusinessProcess).Assembly).Pick()
+                // do the ConfigureFor before the Configure, or else it fails
+                .ConfigureFor<BusinessProcess>(component => component.LifeStyle.Transient)
+                .Configure(component => component.LifeStyle.Singleton)
+                .WithService.DefaultInterface());
+
+            BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
+            BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
+
+            Assert.AreNotSame(businessProcess1, businessProcess2);
+            Assert.AreSame(businessProcess1.CustomerService, businessProcess2.CustomerService);
+            Assert.AreSame(businessProcess1.OrderService, businessProcess2.OrderService);
         }
 
         [Test]
