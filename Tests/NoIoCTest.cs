@@ -32,9 +32,9 @@
             SweetShop sweetShop = new SweetShop(new SweetVendingMachine(new StrawberryJellybeanDispenser()));
             SweetShop sweetShop2 = new SweetShop(new SweetVendingMachine(new StrawberryJellybeanDispenser()));
 
-            Assert.IsFalse(ReferenceEquals(sweetShop, sweetShop2), "Root objects are equal");
-            Assert.IsFalse(ReferenceEquals(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine), "Contained objects are equal");
-            Assert.IsFalse(ReferenceEquals(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser), "services are equal");
+            Assert.AreNotSame(sweetShop, sweetShop2, "Root objects are equal");
+            Assert.AreNotSame(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine, "Contained objects are equal");
+            Assert.AreNotSame(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser, "services are equal");
         }
 
         [Test]
@@ -44,11 +44,11 @@
             SweetShop sweetShop = new SweetShop(new SweetVendingMachine(jellybeanDispenser));
             SweetShop sweetShop2 = new SweetShop(new SweetVendingMachine(jellybeanDispenser));
 
-            Assert.IsFalse(ReferenceEquals(sweetShop, sweetShop2), "Root objects are equal");
-            Assert.IsFalse(ReferenceEquals(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine), "Contained objects are equal");
+            Assert.AreNotSame(sweetShop, sweetShop2, "Root objects are equal");
+            Assert.AreNotSame(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine, "Contained objects are equal");
 
             // should be same service
-            Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser), "services are not equal");
+            Assert.AreSame(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser, "services are not equal");
         }
 
         [Test]

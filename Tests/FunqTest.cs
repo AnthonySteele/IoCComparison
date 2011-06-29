@@ -46,9 +46,9 @@
             SweetShop sweetShop = container.Resolve<SweetShop>();
             SweetShop sweetShop2 = container.Resolve<SweetShop>();
 
-            Assert.IsTrue(ReferenceEquals(sweetShop, sweetShop2), "Root objects are equal");
-            Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine), "Contained objects are equal");
-            Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser), "services are equal");
+            Assert.AreSame(sweetShop, sweetShop2, "Root objects are equal");
+            Assert.AreSame(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine, "Contained objects are equal");
+            Assert.AreSame(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser, "services are equal");
         }
 
         [Test]
@@ -63,11 +63,11 @@
             SweetShop sweetShop2 = container.Resolve<SweetShop>();
 
 
-            Assert.IsFalse(ReferenceEquals(sweetShop, sweetShop2), "Root objects are equal");
-            Assert.IsFalse(ReferenceEquals(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine), "Contained objects are equal");
+            Assert.AreNotSame(sweetShop, sweetShop2, "Root objects are equal");
+            Assert.AreNotSame(sweetShop.SweetVendingMachine, sweetShop2.SweetVendingMachine, "Contained objects are equal");
 
             // should be same service
-            Assert.IsTrue(ReferenceEquals(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser), "services are not equal");
+            Assert.AreSame(sweetShop.SweetVendingMachine.JellybeanDispenser, sweetShop2.SweetVendingMachine.JellybeanDispenser, "services are not equal");
         }
 
         [Test]
