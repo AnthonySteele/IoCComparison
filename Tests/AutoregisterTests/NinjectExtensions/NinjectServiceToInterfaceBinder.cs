@@ -1,10 +1,10 @@
-﻿using System;
-using Ninject;
-using Ninject.Activation;
-using Ninject.Extensions.Conventions;
-
-namespace IoCComparison.AutoregisterTests.NinjectExtensions
+﻿namespace IoCComparison.AutoregisterTests.NinjectExtensions
 {
+    using System;
+    using Ninject;
+    using Ninject.Activation;
+    using Ninject.Extensions.Conventions;
+
     /// <summary>
     /// I think that the convention needed for registering services is
     /// 

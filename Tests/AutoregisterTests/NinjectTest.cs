@@ -81,6 +81,25 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
+        public void CanMakeTransientInstanceWithSingletonDependencies()
+        {
+            IKernel kernel = new StandardKernel();
+            kernel.Scan(scanner =>
+            {
+                scanner.From(typeof(BusinessProcess).Assembly);
+                scanner.Where(t => t != typeof(BusinessProcess));
+                scanner.BindWith<NinjectServiceToInterfaceBinder>();
+                scanner.InSingletonScope();
+            });
+            BusinessProcess businessProcess1 = kernel.Get<BusinessProcess>();
+            BusinessProcess businessProcess2 = kernel.Get<BusinessProcess>();
+
+            Assert.AreNotSame(businessProcess1, businessProcess2);
+            Assert.AreSame(businessProcess1.CustomerService, businessProcess2.CustomerService);
+            Assert.AreSame(businessProcess1.OrderService, businessProcess2.OrderService);
+        }
+
+        [Test]
         public void CanGetAllValidators()
         {
             IKernel kernel = new StandardKernel();
