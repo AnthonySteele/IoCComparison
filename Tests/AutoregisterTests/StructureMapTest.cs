@@ -32,17 +32,18 @@
         [Test]
         public void CanMakeSingletonInstance()
         {
+            // must use a custom RegistrationConvention to set some as singletons
+            // not ideal. Is there another way?
+            CustomRegistrationConvention registrationConvention = new CustomRegistrationConvention()
+                .WithSingleton<BusinessProcess>();
+
             ObjectFactory.Initialize(x =>
-                {
                     x.Scan(y =>
                     {
+                        y.With(registrationConvention);
                         y.RegisterConcreteTypesAgainstTheFirstInterface();
                         y.AssemblyContainingType(typeof(BusinessProcess));
-                    });
-
-                    // I don't see a way to do this inside the scan. I want to do "y.RegisterConcreteTypesAsThemselves();" halp?
-                    x.ForSingletonOf<BusinessProcess>().Use<BusinessProcess>();
-                });
+                    }));
 
             BusinessProcess businessProcess1 = ObjectFactory.GetInstance<BusinessProcess>();
             BusinessProcess businessProcess2 = ObjectFactory.GetInstance<BusinessProcess>();

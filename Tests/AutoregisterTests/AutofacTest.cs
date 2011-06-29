@@ -1,12 +1,12 @@
-﻿using System;
-using AutoregisteredClasses.Validators;
-namespace IoCComparison.AutoregisterTests
+﻿namespace IoCComparison.AutoregisterTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Autofac;
     using AutoregisteredClasses.Interfaces;
     using AutoregisteredClasses.Services;
+    using AutoregisteredClasses.Validators;
     using NUnit.Framework;
 
     [TestFixture]

@@ -40,8 +40,8 @@ namespace IoCComparison.AutoregisterTests
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
                 // include just the target assembly
-                Include(t => InTargetAssembly(t), 
-                Then.Register().AsAllInterfacesOfType()).
+                 Include(t => InTargetAssembly(t), 
+                    Then.Register().AsAllInterfacesOfType()).
                 ApplyAutoRegistration();
 
             BusinessProcess businessProcess = container.Resolve<BusinessProcess>();
@@ -55,7 +55,7 @@ namespace IoCComparison.AutoregisterTests
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
                 Include(t => true,
-                Then.Register().AsAllInterfacesOfType()).
+                    Then.Register().AsAllInterfacesOfType()).
 
                 // exclude system and library assemblies
                 ExcludeSystemAssemblies().
@@ -73,17 +73,16 @@ namespace IoCComparison.AutoregisterTests
         {
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
-                Include(t => true,
-                Then.Register().AsAllInterfacesOfType()).
+                Include(t => t != typeof(BusinessProcess),
+                    Then.Register().AsAllInterfacesOfType()).
+                Include(t => t == typeof(BusinessProcess),
+                    Then.Register().As<BusinessProcess>().UsingSingletonMode()).
 
                 // exclude system and library assemblies
                 ExcludeSystemAssemblies().
                 ExcludeAssemblies(a => IsLibraryAssembly(a)).
 
                 ApplyAutoRegistration();
-
-            // hm, can this be done in the scan?
-            container.RegisterType<BusinessProcess>(new ContainerControlledLifetimeManager());
 
             BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
             BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
@@ -97,7 +96,7 @@ namespace IoCComparison.AutoregisterTests
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
                 Include(t => true,
-                Then.Register().AsAllInterfacesOfType()).
+                    Then.Register().AsAllInterfacesOfType()).
 
                 // exclude system and library assemblies
                 ExcludeSystemAssemblies().
@@ -109,6 +108,30 @@ namespace IoCComparison.AutoregisterTests
             BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
 
             Assert.AreNotSame(businessProcess1, businessProcess2);
+        }
+
+
+        [Test]
+        public void CanMakeTransientInstanceWithSingletonDependencies()
+        {
+            UnityContainer container = new UnityContainer();
+            container.ConfigureAutoRegistration().
+                Include(t => t != typeof(BusinessProcess),
+                    Then.Register().AsAllInterfacesOfType()
+                    .UsingSingletonMode()).
+
+                // exclude system and library assemblies
+                ExcludeSystemAssemblies().
+                ExcludeAssemblies(a => IsLibraryAssembly(a)).
+
+                ApplyAutoRegistration();
+
+            BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
+            BusinessProcess businessProcess2 = container.Resolve<BusinessProcess>();
+
+            Assert.AreNotSame(businessProcess1, businessProcess2);
+            Assert.AreSame(businessProcess1.CustomerService, businessProcess2.CustomerService);
+            Assert.AreSame(businessProcess1.OrderService, businessProcess2.OrderService);
         }
 
         [Test]

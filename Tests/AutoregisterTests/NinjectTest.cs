@@ -1,10 +1,9 @@
-﻿using AutoregisteredClasses.Validators;
-
-namespace IoCComparison.AutoregisterTests
+﻿namespace IoCComparison.AutoregisterTests
 {
     using System.Linq;
     using AutoregisteredClasses.Interfaces;
     using AutoregisteredClasses.Services;
+    using AutoregisteredClasses.Validators;
     using Ninject;
     using Ninject.Extensions.Conventions;
     using NUnit.Framework;
@@ -87,6 +86,8 @@ namespace IoCComparison.AutoregisterTests
             kernel.Scan(scanner =>
             {
                 scanner.From(typeof(BusinessProcess).Assembly);
+                // exclude the type 'BusinessProcess' from scanning and singleton
+                // NInject will auto-resolve it as transient
                 scanner.Where(t => t != typeof(BusinessProcess));
                 scanner.BindWith<NinjectServiceToInterfaceBinder>();
                 scanner.InSingletonScope();
