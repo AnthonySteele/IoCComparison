@@ -1,10 +1,10 @@
-﻿using AutoregisteredClasses.Validators;
-
-namespace IoCComparison.AutoregisterTests
+﻿namespace IoCComparison.AutoregisterTests
 {
     using System.Linq;
     using AutoregisteredClasses.Interfaces;
     using AutoregisteredClasses.Services;
+    using AutoregisteredClasses.Validators;
+    using IoCComparison.AutoregisterTests.StructureMapExtensions;
     using NUnit.Framework;
     using StructureMap;
 
@@ -65,6 +65,29 @@ namespace IoCComparison.AutoregisterTests
 
             Assert.AreNotSame(businessProcess1, businessProcess2);
         }
+
+        [Test]
+        public void CanMakeTransientInstanceWithSingletonDependencies()
+        {
+            CustomRegistrationConvention registrationConvention = new CustomRegistrationConvention()
+                .WithSingleton<ICustomerService>().WithSingleton<IOrderService>();
+
+            ObjectFactory.Initialize(x =>
+                x.Scan(y =>
+                {
+                    y.With(registrationConvention);
+                    y.AssemblyContainingType(typeof(BusinessProcess));
+                }));
+
+
+            BusinessProcess businessProcess1 = ObjectFactory.GetInstance<BusinessProcess>();
+            BusinessProcess businessProcess2 = ObjectFactory.GetInstance<BusinessProcess>();
+
+            Assert.AreNotSame(businessProcess1, businessProcess2);
+            Assert.AreSame(businessProcess1.CustomerService, businessProcess2.CustomerService);
+            Assert.AreSame(businessProcess1.OrderService, businessProcess2.OrderService);
+        }
+
 
         [Test]
         public void CanGetAllValidators()
