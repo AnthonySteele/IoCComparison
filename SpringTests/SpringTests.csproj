@@ -35,6 +35,9 @@
     <Reference Include="Spring.Core.Configuration">
       <HintPath>..\Lib\Spring\Spring.Core.Configuration.dll</HintPath>
     </Reference>
+    <Reference Include="Spring.Services">
+      <HintPath>..\Lib\Spring\Spring.Services.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -43,9 +46,6 @@
     </Reference>
     <Reference Include="Spring.Core">
       <HintPath>..\Lib\Spring\Spring.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Spring.Services">
-      <HintPath>..\Lib\Spring\Spring.Services.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -61,6 +61,9 @@
       <Project>{0345F9AF-1561-45C8-89FE-755133C865BB}</Project>
       <Name>Classes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

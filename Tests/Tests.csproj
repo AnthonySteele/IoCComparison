@@ -92,6 +92,15 @@
     <Reference Include="OpenRasta">
       <HintPath>..\Lib\OpenRasta\OpenRasta.dll</HintPath>
     </Reference>
+    <Reference Include="Spring.Core">
+      <HintPath>..\Lib\Spring\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core.Configuration">
+      <HintPath>..\Lib\Spring\Spring.Core.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Services">
+      <HintPath>..\Lib\Spring\Spring.Services.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=2.6.1.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\StructureMap\StructureMap.dll</HintPath>
@@ -112,6 +121,7 @@
     <Compile Include="AutoregisterTests\AutofacTest.cs" />
     <Compile Include="AutoregisterTests\NinjectTest.cs" />
     <Compile Include="AutoregisterTests\NinjectExtensions\NinjectServiceToInterfaceBinder.cs" />
+    <Compile Include="AutoregisterTests\StructureMapExtensions\CustomRegistrationConvention.cs" />
     <Compile Include="AutoregisterTests\StructureMapTest.cs" />
     <Compile Include="AutoregisterTests\UnityTest.cs" />
     <Compile Include="AutoregisterTests\WindsorTest.cs" />
@@ -121,12 +131,13 @@
     <Compile Include="NInjectTest.cs" />
     <Compile Include="NoIoCTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpringCodeConfigTest.cs" />
+    <Compile Include="SpringHelper.cs" />
+    <Compile Include="SpringNoConfigTest.cs" />
+    <Compile Include="SpringTest.cs" />
     <Compile Include="StructureMapTest.cs" />
     <Compile Include="UnityTest.cs" />
     <Compile Include="WindsorTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -154,6 +165,9 @@
       <Project>{0345F9AF-1561-45C8-89FE-755133C865BB}</Project>
       <Name>Classes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
