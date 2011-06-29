@@ -28,10 +28,10 @@ namespace IoCComparison.AutoregisterTests
             builder.RegisterAssemblyTypes(typeof(BusinessProcess).Assembly).Where(t => HasNoInterfaces(t));
             builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly).AsImplementedInterfaces();
             IContainer container = builder.Build();
-            
-            BusinessProcess bp = container.Resolve<BusinessProcess>();
 
-            Assert.IsNotNull(bp);
+            BusinessProcess businessProcess = container.Resolve<BusinessProcess>();
+
+            Assert.IsNotNull(businessProcess);
         }
 
         [Test]
@@ -44,14 +44,14 @@ namespace IoCComparison.AutoregisterTests
             // even though we only care about the latter
             builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly).AsImplementedInterfaces().AsSelf();
             IContainer container = builder.Build();
-            
-            BusinessProcess bp = container.Resolve<BusinessProcess>();
 
-            Assert.IsNotNull(bp);
+            BusinessProcess businessProcess = container.Resolve<BusinessProcess>();
+
+            Assert.IsNotNull(businessProcess);
         }
 
         [Test]
-        public void CanMakeSingletonBusinessProcess()
+        public void CanMakeSingletonInstance()
         {
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly).AsImplementedInterfaces().AsSelf()
@@ -65,7 +65,7 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
-        public void CanMakeTransientBusinessProcess()
+        public void CanMakeTransientInstance()
         {
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly).AsImplementedInterfaces().AsSelf();
@@ -91,7 +91,7 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
-        public void CanFilterOutRegistrations()
+        public void CanFilterOutValidatorRegistrations()
         {
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(typeof(IValidator).Assembly)

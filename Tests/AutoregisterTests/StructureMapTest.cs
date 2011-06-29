@@ -30,7 +30,7 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
-        public void CanMakeSingletonBusinessProcess()
+        public void CanMakeSingletonInstance()
         {
             ObjectFactory.Initialize(x =>
                 {
@@ -51,7 +51,7 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
-        public void CanMakeTransientBusinessProcess()
+        public void CanMakeTransientInstance()
         {
             ObjectFactory.Initialize(x =>
                 x.Scan(y =>
@@ -84,7 +84,7 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
-        public void CanFilterOutRegistrations()
+        public void CanFilterOutValidatorRegistrations()
         {
             ObjectFactory.Initialize(
                 x => x.Scan(

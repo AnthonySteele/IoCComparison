@@ -15,7 +15,8 @@
         public void CanMakeBusinessProcess()
         {
             WindsorContainer container = new WindsorContainer();
-            container.Register(AllTypes.FromAssembly(typeof(BusinessProcess).Assembly).Pick()
+            container.Register(
+                AllTypes.FromAssembly(typeof(BusinessProcess).Assembly).Pick()
                 .WithService.DefaultInterface());
 
             BusinessProcess businessProcess = container.Resolve<BusinessProcess>();
@@ -24,7 +25,7 @@
         }
 
         [Test]
-        public void CanMakeSingletonBusinessProcess()
+        public void CanMakeSingletonInstance()
         {
             WindsorContainer container = new WindsorContainer();
             container.Register(AllTypes.FromAssembly(typeof(BusinessProcess).Assembly).Pick()
@@ -37,7 +38,7 @@
         }
 
         [Test]
-        public void CanMakeTransientBusinessProcess()
+        public void CanMakeTransientInstance()
         {
             WindsorContainer container = new WindsorContainer();
             container.Register(AllTypes.FromAssembly(typeof(BusinessProcess).Assembly).Pick()
@@ -51,7 +52,7 @@
         }
 
         [Test]
-        public void CanMakeTransientBusinessProcessWithSingletonDependencies()
+        public void CanMakeTransientInstanceWithSingletonDependencies()
         {
             WindsorContainer container = new WindsorContainer();
             container.Register(AllTypes.FromAssembly(typeof(BusinessProcess).Assembly).Pick()
@@ -82,7 +83,7 @@
         }
 
         [Test]
-        public void CanFilterOutRegistrations()
+        public void CanFilterOutValidatorRegistrations()
         {
             WindsorContainer container = new WindsorContainer();
             container.Register(AllTypes.FromAssembly(typeof(IValidator).Assembly)

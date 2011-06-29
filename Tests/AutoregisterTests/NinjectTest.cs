@@ -47,7 +47,7 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
-        public void CanMakeSingletonBusinessProcess()
+        public void CanMakeSingletonInstance()
         {
             IKernel kernel = new StandardKernel();
             kernel.Scan(scanner =>
@@ -64,7 +64,7 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
-        public void CanMakeTransientBusinessProcess()
+        public void CanMakeTransientInstance()
         {
             IKernel kernel = new StandardKernel();
             kernel.Scan(scanner =>
@@ -97,7 +97,7 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
-        public void CanFilterOutRegistrations()
+        public void CanFilterOutValidatorRegistrations()
         {
             IKernel kernel = new StandardKernel();
             kernel.Scan(scanner =>

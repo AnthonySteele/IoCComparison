@@ -11,8 +11,9 @@ namespace IoCComparison.AutoregisterTests
     using Microsoft.Practices.Unity;
     using NUnit.Framework;
 
-    // need the "Unity Auto Registration" addon
-    // http://autoregistration.codeplex.com/
+    /// <summary>
+    /// using the "Unity Auto Registration" addon http://autoregistration.codeplex.com/
+    /// </summary>
     [TestFixture]
     public class UnityTest
     {
@@ -43,9 +44,9 @@ namespace IoCComparison.AutoregisterTests
                 Then.Register().AsAllInterfacesOfType()).
                 ApplyAutoRegistration();
 
-            BusinessProcess bp = container.Resolve<BusinessProcess>();
+            BusinessProcess businessProcess = container.Resolve<BusinessProcess>();
 
-            Assert.IsNotNull(bp);
+            Assert.IsNotNull(businessProcess);
         }
 
         [Test]
@@ -62,13 +63,13 @@ namespace IoCComparison.AutoregisterTests
 
                 ApplyAutoRegistration();
 
-            BusinessProcess bp = container.Resolve<BusinessProcess>();
+            BusinessProcess businessProcess = container.Resolve<BusinessProcess>();
 
-            Assert.IsNotNull(bp);
+            Assert.IsNotNull(businessProcess);
         }
 
         [Test]
-        public void CanMakeSingletonBusinessProcess()
+        public void CanMakeSingletonInstance()
         {
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
@@ -91,7 +92,7 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
-        public void CanMakeTransientBusinessProcess()
+        public void CanMakeTransientInstance()
         {
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
@@ -127,11 +128,8 @@ namespace IoCComparison.AutoregisterTests
         }
 
         [Test]
-        public void CanFilterOutRegistrations()
+        public void CanFilterOutValidatorRegistrations()
         {
-            try
-            {
-
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
                 Include(t => InTargetAssembly(t),
@@ -146,14 +144,6 @@ namespace IoCComparison.AutoregisterTests
 
             Assert.IsNotNull(validators);
             Assert.AreEqual(2, validators.Count());
-
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-
-                throw ex;
-            }
-
         }
     }
 }
