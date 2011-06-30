@@ -1,13 +1,12 @@
-﻿using System.Reflection;
-using AutoregisteredClasses.Validators;
-using IoCComparison.AutoregisterTests.UnityExtensions;
-
-namespace IoCComparison.AutoregisterTests
+﻿namespace IoCComparison.AutoregisterTests
 {
     using System;
     using System.Linq;
+    using System.Reflection;
     using AutoregisteredClasses.Interfaces;
     using AutoregisteredClasses.Services;
+    using AutoregisteredClasses.Validators;
+    using IoCComparison.AutoregisterTests.UnityExtensions;
     using Unity.AutoRegistration;
     using Microsoft.Practices.Unity;
     using NUnit.Framework;

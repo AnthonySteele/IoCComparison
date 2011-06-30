@@ -123,6 +123,8 @@
     <Compile Include="AutoregisterTests\NinjectExtensions\NinjectServiceToInterfaceBinder.cs" />
     <Compile Include="AutoregisterTests\StructureMapExtensions\CustomRegistrationConvention.cs" />
     <Compile Include="AutoregisterTests\StructureMapTest.cs" />
+    <Compile Include="AutoregisterTests\TypeExtensions\TypeHelpers.cs" />
+    <Compile Include="AutoregisterTests\UnityExtensions\UnityRegistrationExtensions.cs" />
     <Compile Include="AutoregisterTests\UnityTest.cs" />
     <Compile Include="AutoregisterTests\WindsorTest.cs" />
     <Compile Include="FunqTest.cs" />

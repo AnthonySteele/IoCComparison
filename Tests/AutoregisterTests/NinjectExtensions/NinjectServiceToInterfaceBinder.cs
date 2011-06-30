@@ -4,6 +4,7 @@
     using Ninject;
     using Ninject.Activation;
     using Ninject.Extensions.Conventions;
+    using IoCComparison.AutoregisterTests.TypeExtensions;
 
     /// <summary>
     /// I think that the convention needed for registering services is
@@ -35,7 +36,7 @@
             {
                 foreach (Type interfaceType in interfaceTypes)
                 {
-                    if (!IsSystemType(interfaceType))
+                    if (! interfaceType.IsSystemType())
                     {
                         kernel.Bind(interfaceType).To(type).InScope(scopeCallback);
                     }
@@ -46,12 +47,6 @@
                 // if the type has no interfaces - bind to self
                 kernel.Bind(type).To(type).InScope(scopeCallback);
             }
-        }
-
-        private static bool IsSystemType(Type type)
-        {
-            // Check the namespace prefix. Is there a better way to test for system types?
-            return type.FullName.StartsWith("System.");
         }
     }
 }
