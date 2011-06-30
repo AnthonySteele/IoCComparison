@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using AutoregisteredClasses.Validators;
+using IoCComparison.AutoregisterTests.UnityExtensions;
 
 namespace IoCComparison.AutoregisterTests
 {
@@ -76,7 +77,7 @@ namespace IoCComparison.AutoregisterTests
                 Include(t => t != typeof(BusinessProcess),
                     Then.Register().AsAllInterfacesOfType()).
                 Include(t => t == typeof(BusinessProcess),
-                    Then.Register().As<BusinessProcess>().UsingSingletonMode()).
+                    Then.Register().AsSelf().UsingSingletonMode()).
 
                 // exclude system and library assemblies
                 ExcludeSystemAssemblies().
@@ -119,6 +120,8 @@ namespace IoCComparison.AutoregisterTests
                 Include(t => t != typeof(BusinessProcess),
                     Then.Register().AsAllInterfacesOfType()
                     .UsingSingletonMode()).
+                Include(t => t == typeof(BusinessProcess),
+                    Then.Register().AsSelf()).
 
                 // exclude system and library assemblies
                 ExcludeSystemAssemblies().
