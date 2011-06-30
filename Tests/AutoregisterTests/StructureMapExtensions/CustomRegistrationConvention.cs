@@ -5,6 +5,7 @@
     using StructureMap.Graph;
     using StructureMap.Configuration.DSL;
     using StructureMap.TypeRules;
+    using IoCComparison.AutoregisterTests.TypeExtensions;
 
     public class CustomRegistrationConvention : IRegistrationConvention
     {
@@ -29,7 +30,7 @@
             {
                 foreach (Type interfaceType in interfaceTypes)
                 {
-                    if (!IsSystemType(interfaceType))
+                    if (! interfaceType.IsSystemType())
                     {
                         Register(registry, interfaceType, type);
                     }
@@ -57,12 +58,6 @@
         private bool RegisterAsSingleton(Type type)
         {
             return singletonTypes.Contains(type);
-        }
-
-        private static bool IsSystemType(Type type)
-        {
-            // Check the namespace prefix. Is there a better way to test for system types?
-            return type.FullName.StartsWith("System.");
         }
     }
 }

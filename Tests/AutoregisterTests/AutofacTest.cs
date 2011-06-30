@@ -1,22 +1,18 @@
 ﻿namespace IoCComparison.AutoregisterTests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Autofac;
     using AutoregisteredClasses.Interfaces;
     using AutoregisteredClasses.Services;
     using AutoregisteredClasses.Validators;
+    using IoCComparison.AutoregisterTests.TypeExtensions;
+
     using NUnit.Framework;
 
     [TestFixture]
     public class AutofacTest
     {
-        private static bool HasInterfaces(Type type)
-        {
-            return type.GetInterfaces().Length > 0;
-        }
-
         [Test]
         public void CanMakeBusinessProcessTwoScans()
         {
@@ -24,7 +20,7 @@
 
             // go through the target assembly twice 
             // - once for object without interfaces, once for those with interfaces
-            builder.RegisterAssemblyTypes(typeof(BusinessProcess).Assembly).Where(t => ! HasInterfaces(t));
+            builder.RegisterAssemblyTypes(typeof(BusinessProcess).Assembly).Where(t => ! t.HasInterfaces());
             builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly).AsImplementedInterfaces();
             IContainer container = builder.Build();
 
@@ -85,11 +81,11 @@
         {
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(typeof (CustomerService).Assembly)
-                .Where(t => HasInterfaces(t))
+                .Where(t => t.HasInterfaces())
                 .AsImplementedInterfaces().SingleInstance();
             
             builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly)
-                .Where(t => ! HasInterfaces(t))
+                .Where(t => ! t.HasInterfaces())
                 .AsSelf();
             IContainer container = builder.Build();
 
