@@ -39,7 +39,7 @@
         {
             UnityContainer container = new UnityContainer();
             container.ConfigureAutoRegistration().
-                // include just the target assembly
+                // include just the target assembly.
                  Include(t => InTargetAssembly(t), 
                     Then.Register().AsAllInterfacesOfType()).
                 ApplyAutoRegistration();

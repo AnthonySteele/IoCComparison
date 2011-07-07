@@ -88,6 +88,7 @@
                 scanner.From(typeof(BusinessProcess).Assembly);
                 // exclude the type 'BusinessProcess' from scanning and singleton
                 // NInject will auto-resolve it as transient
+                // I don't know how the reverse would be accomplished
                 scanner.Where(t => t != typeof(BusinessProcess));
                 scanner.BindWith<NinjectServiceToInterfaceBinder>();
                 scanner.InSingletonScope();

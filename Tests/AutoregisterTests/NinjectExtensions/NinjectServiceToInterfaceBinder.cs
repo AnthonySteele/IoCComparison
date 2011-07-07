@@ -1,6 +1,8 @@
 ﻿namespace IoCComparison.AutoregisterTests.NinjectExtensions
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Ninject;
     using Ninject.Activation;
     using Ninject.Extensions.Conventions;
@@ -30,16 +32,14 @@
                 return;
             }
 
-            Type[] interfaceTypes = type.GetInterfaces();
+            IList<Type> interfaceTypes = type.GetInterfaces()
+                .Where(t => ! t.IsSystemType()).ToList();
 
-            if (interfaceTypes.Length != 0)
+            if (interfaceTypes.Count > 0)
             {
                 foreach (Type interfaceType in interfaceTypes)
                 {
-                    if (! interfaceType.IsSystemType())
-                    {
-                        kernel.Bind(interfaceType).To(type).InScope(scopeCallback);
-                    }
+                    kernel.Bind(interfaceType).To(type).InScope(scopeCallback);
                 }
             }
             else

@@ -8,3 +8,4 @@ IoCComparison.csproj.user
 IoCComparison.suo
 /Classes/_ReSharper.Classes
 /Tests/_ReSharper.Tests
+*.user
