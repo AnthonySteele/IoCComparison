@@ -102,6 +102,37 @@
         }
 
         [Test]
+        public void CanMakeTransientInstanceWithSingletonDependenciesTwoScans()
+        {
+            IKernel kernel = new StandardKernel();
+
+            // scan for types that are registered as singletons
+            kernel.Scan(scanner =>
+            {
+                scanner.From(typeof(BusinessProcess).Assembly);
+                scanner.Where(t => t != typeof(BusinessProcess));
+                scanner.BindWith<NinjectServiceToInterfaceBinder>();
+                scanner.InSingletonScope();
+            });
+
+            // scan for types that are registered as transient
+            kernel.Scan(scanner =>
+            {
+                scanner.From(typeof(BusinessProcess).Assembly);
+                scanner.Where(t => t == typeof(BusinessProcess));
+                scanner.BindWith<NinjectServiceToInterfaceBinder>();
+                scanner.InTransientScope();
+            });
+
+            BusinessProcess businessProcess1 = kernel.Get<BusinessProcess>();
+            BusinessProcess businessProcess2 = kernel.Get<BusinessProcess>();
+
+            Assert.AreNotSame(businessProcess1, businessProcess2);
+            Assert.AreSame(businessProcess1.CustomerService, businessProcess2.CustomerService);
+            Assert.AreSame(businessProcess1.OrderService, businessProcess2.OrderService);
+        }
+
+        [Test]
         public void CanGetAllValidators()
         {
             IKernel kernel = new StandardKernel();
