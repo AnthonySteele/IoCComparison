@@ -1,6 +1,7 @@
 ﻿namespace IoCComparison.AutoregisterTests.StructureMapExtensions
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using StructureMap.Graph;
     using StructureMap.Configuration.DSL;
@@ -24,16 +25,14 @@
                 return;
             }
 
-            Type[] interfaceTypes = type.GetInterfaces();
+            IList<Type> interfaceTypes = type.GetInterfaces()
+                .Where(t => !t.IsSystemType()).ToList();
 
-            if (interfaceTypes.Length != 0)
+            if (interfaceTypes.Count > 0)
             {
                 foreach (Type interfaceType in interfaceTypes)
                 {
-                    if (! interfaceType.IsSystemType())
-                    {
-                        Register(registry, interfaceType, type);
-                    }
+                    Register(registry, interfaceType, type);
                 }
             }
             else
@@ -45,7 +44,7 @@
 
         private void Register(Registry registry, Type sourceType, Type targetType)
         {
-            if (RegisterAsSingleton(sourceType))
+            if (ShouldRegisterAsSingleton(sourceType))
             {
                 registry.For(sourceType).Singleton().Use(targetType);
             }
@@ -55,7 +54,7 @@
             }
         }
 
-        private bool RegisterAsSingleton(Type type)
+        private bool ShouldRegisterAsSingleton(Type type)
         {
             return singletonTypes.Contains(type);
         }
