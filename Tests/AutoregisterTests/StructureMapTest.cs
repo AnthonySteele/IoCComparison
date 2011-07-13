@@ -19,7 +19,7 @@
             ObjectFactory.Initialize(x => 
                 x.Scan(y =>
                     {
-                        // y.RegisterConcreteTypesAgainstTheFirstInterface(); is equivalent to...
+                        // y.RegisterConcreteTypesAgainstTheFirstInterface(); is equivalent in this case to...
                         y.WithDefaultConventions();
                         y.AssemblyContainingType(typeof(BusinessProcess));
                     }));
@@ -33,7 +33,7 @@
         public void CanMakeSingletonInstance()
         {
             // must use a custom RegistrationConvention to set some as singletons
-            // not ideal. Is there another way?
+            // Which is a bit complex
             CustomRegistrationConvention registrationConvention = new CustomRegistrationConvention()
                 .WithSingleton<BusinessProcess>();
 
@@ -41,7 +41,6 @@
                     x.Scan(y =>
                     {
                         y.With(registrationConvention);
-                        y.RegisterConcreteTypesAgainstTheFirstInterface();
                         y.AssemblyContainingType(typeof(BusinessProcess));
                     }));
 
