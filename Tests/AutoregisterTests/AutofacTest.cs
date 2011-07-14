@@ -14,10 +14,27 @@
     public class AutofacTest
     {
         [Test]
+        public void CanMakeBusinessProcess()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+
+            builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly)
+                .AsImplementedInterfaces()
+                .Except<BusinessProcess>(rb => rb.AsSelf());
+
+            IContainer container = builder.Build();
+
+            BusinessProcess businessProcess = container.Resolve<BusinessProcess>();
+
+            Assert.IsNotNull(businessProcess);
+        }
+
+        [Test]
         public void CanMakeBusinessProcessTwoScans()
         {
             ContainerBuilder builder = new ContainerBuilder();
 
+            // not as good as the Except<T>(rb => ...) syntax
             // go through the target assembly twice 
             // - once for object without interfaces, once for those with interfaces
             builder.RegisterAssemblyTypes(typeof(BusinessProcess).Assembly).Where(t => ! t.HasInterfaces());
@@ -34,6 +51,7 @@
         {
             ContainerBuilder builder = new ContainerBuilder();
 
+            // not as good as the Except<T>(rb => ...) syntax
             // instead of redundant scans, this version has redundant registrations
             // e.g. CustomerService is registered as both CustomerService and ICustomerService,
             // even though we only care about the latter
@@ -82,11 +100,9 @@
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(typeof (CustomerService).Assembly)
                 .Where(t => t.HasInterfaces())
-                .AsImplementedInterfaces().SingleInstance();
+                .AsImplementedInterfaces().SingleInstance()
+                .Except<BusinessProcess>(rb => rb.AsSelf());
             
-            builder.RegisterAssemblyTypes(typeof(CustomerService).Assembly)
-                .Where(t => ! t.HasInterfaces())
-                .AsSelf();
             IContainer container = builder.Build();
 
             BusinessProcess businessProcess1 = container.Resolve<BusinessProcess>();
@@ -111,7 +127,7 @@
         }
 
         [Test]
-        public void CanFilterOutValidatorRegistrations()
+        public void CanFilterOutValidatorRegistrationsWithWhere()
         {
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(typeof(IValidator).Assembly)
@@ -125,5 +141,22 @@
             Assert.IsNotNull(validators);
             Assert.AreEqual(2, validators.Count());
         }
+
+        [Test]
+        public void CanFilterOutValidatorRegistrationsWithExcept()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterAssemblyTypes(typeof(IValidator).Assembly)
+                .AsImplementedInterfaces()
+                .Except<FailValidator>();
+            IContainer container = builder.Build();
+
+            // excluding the FailValidator should leave 2 of them
+            var validators = container.Resolve<IEnumerable<IValidator>>();
+
+            Assert.IsNotNull(validators);
+            Assert.AreEqual(2, validators.Count());
+        }
+
     }
 }
